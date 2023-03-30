@@ -1,0 +1,32 @@
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import React from 'react';
+
+export default function PatientsFooter() {
+	// const [patname, setPatname] = useState('lalala');
+
+	return (
+		<Navbar bg="primary" variant="dark" expand="sm">
+			<Container>
+				<Navbar.Brand href="/patients" color="blue.300">
+					Welcome Back, NAME HERE
+				</Navbar.Brand>
+				<Navbar.Toggle aria-controls="basic-navbar-nav" />
+				<Navbar.Collapse id="basic-navbar-nav">
+					<Nav className="me-auto">
+						<Nav.Link href="/payments">
+							Click Here to Pay Bill
+						</Nav.Link>
+						<Nav.Link href="/appointments">
+							Book an Appointment
+						</Nav.Link>
+						<Nav.Link href="/patientupdate">
+							Update Your Information
+						</Nav.Link>
+					</Nav>
+				</Navbar.Collapse>
+			</Container>
+		</Navbar>
+	);
+}
