@@ -11,6 +11,7 @@ import {
 	CardBody,
 	FormControl,
 	FormLabel,
+	CardFooter,
 } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
@@ -20,67 +21,100 @@ import banner from '../pages/banner.jpg';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 
-const mockDoctors = [
-	{
-		id: 1,
-		fullname: 'Dr. John Smith',
-		location: 'Houston',
-		reason: 'general',
-		schedule: ['Mon 9-11am', 'Wed 1-3pm', 'Fri 10am-12pm'],
-	},
-	{
-		id: 2,
-		fullname: 'Dr. Jane Doe',
-		location: 'Houston',
-		reason: 'radio',
-		schedule: ['Tues 9-11am', 'Thurs 1-3pm', 'Sat 10am-12pm'],
-	},
-	{
-		id: 3,
-		fullname: 'Dr. Mark Johnson',
-		location: 'Austin',
-		reason: 'cardio',
-		schedule: ['Mon 1-3pm', 'Wed 9-11am', 'Fri 1-3pm'],
-	},
-	{
-		id: 4,
-		fullname: 'Dr. Sarah Lee',
-		location: 'Dallas',
-		reason: 'gastro',
-		schedule: ['Tues 1-3pm', 'Thurs 9-11am', 'Sat 1-3pm'],
-	},
-];
-
 export default function Appointments() {
-	const [doctors, setDoctors] = useState([]);
+	const [doctorArray, setDoctorArray] = useState([]);
 	const [selectedDoctor, setSelectedDoctor] = useState('');
-	const { register, handleSubmit, control } = useForm();
-	const [location, setLocation] = useState('Houston');
-	const [reason, setReason] = useState('general');
+	const { register, control, handleSubmit } = useForm();
+	const [location, setLocation] = useState('');
+	const [reason, setReason] = useState('');
+	const [message, setMessage] = useState('');
 
+	// GET DOCTORS
 	useEffect(() => {
-		axios
-			.get('http://localhost:3000/appt/doctors')
-			.then((response) => {
-				console.log(response);
-			})
-			.catch((error) => {
-				console.log('error from location.js');
-				console.log(error);
-			});
-	}, []);
-
-	useEffect(() => {
+		// console.log(location, reason);
 		if (location && reason) {
-			const filteredDoctors = mockDoctors.filter(
-				(doctor) =>
-					doctor.location === location && doctor.reason === reason
-			);
-			setDoctors(filteredDoctors);
+			axios
+				.post('http://localhost:3000/patient/bookappt/doctors', {
+					location,
+					reason,
+				})
+				.then((response) => {
+					// console.log(response.data);
+					setDoctorArray(response.data);
+					// console.log(doctorArray);
+				})
+				.catch((error) => {
+					console.log('error2');
+					// console.log('GET FILTERED DOCTORS');
+					console.log(error);
+				});
 		} else {
-			setDoctors([]);
+			setDoctorArray([]);
 		}
 	}, [location, reason]);
+
+	const onSubmit = (data) => {
+		if (location && reason && selectedDoctor && DatePicker) {
+			if (location === 'Houston') {
+				data.location = '1';
+			} else if (location === 'Dallas') {
+				data.location = '2';
+			} else if (location === 'Austin') {
+				data.location = '3';
+			}
+			console.log('DATA:');
+			console.log(data);
+			axios
+				.post('http://localhost:3000/patient/bookappt/noRef', data, {
+					headers: { 'Content-Type': 'application/json' },
+				})
+				.then((response) => {
+					console.log('RESPONSE.DATA:');
+					setMessage('Appointment successfully booked!');
+					console.log(response.data);
+				})
+				.catch((error) => {
+					console.log('ERROR.DATA:');
+					setMessage('Sorry, that date is already booked');
+					console.log(error.data);
+				});
+		}
+	};
+
+	// useEffect(() => {
+	// 	// console.log('CALLING EFFECT');
+	// 	// console.log(selectedDoctor);
+	// 	if (selectedDoctor) {
+	// 		axios
+	// 			.post(
+	// 				'http://localhost:3000/patient/bookappt/doctors/datetimes',
+	// 				{
+	// 					location,
+	// 					reason,
+	// 					first,
+	// 					last,
+	// 				}
+	// 			)
+	// 			.then((response) => {
+	// 				console.log(response.data);
+	// 				response.data.setHours(
+	// 					parseInt(apptTime.split(':')[0], 10)
+	// 				);
+	// 				response.data.setMinutes(
+	// 					parseInt(apptTime.split(':')[1], 10)
+	// 				);
+	// 				// setApptDateTimes(response.data);
+	// 			})
+	// 			.catch((error) => {
+	// 				console.log('error2');
+	// 				// console.log('GET FILTERED DOCTORS');
+	// 				console.log(error);
+	// 			});
+	// 	} else {
+	// 		setApptDate([]);
+	// 		setApptTime([]);
+	// 	}
+	// }, [selectedDoctor]);
 
 	return (
 		<VStack
@@ -97,7 +131,7 @@ export default function Appointments() {
 			</Box>
 			<Card height="50vh" alignSelf="center">
 				<CardBody>
-					<form>
+					<form onSubmit={handleSubmit(onSubmit)}>
 						<HStack spacing={10}>
 							<VStack spacing={8}>
 								<FormControl>
@@ -105,6 +139,7 @@ export default function Appointments() {
 										<FormLabel>Location</FormLabel>
 										<RadioGroup
 											className="location"
+											isRequired
 											onChange={setLocation}
 											value={location}>
 											<Stack direction="row">
@@ -133,11 +168,12 @@ export default function Appointments() {
 
 								<FormControl>
 									<HStack>
-										<FormLabel>Location</FormLabel>
+										<FormLabel>Reason</FormLabel>
 
 										<RadioGroup
 											className="reason"
 											onChange={setReason}
+											isRequired
 											value={reason}>
 											<Stack direction="row">
 												<Radio
@@ -176,6 +212,7 @@ export default function Appointments() {
 
 										<Select
 											value={selectedDoctor}
+											isRequired
 											placeholder="Select Doctor"
 											onChange={(e) =>
 												setSelectedDoctor(
@@ -183,12 +220,14 @@ export default function Appointments() {
 												)
 											}
 											disabled={!reason && !location}>
-											{doctors.map((doctors) => (
+											{doctorArray.map((doctorArray) => (
 												<option
-													key={doctors.id}
-													value={doctors.fullname}
+													key={doctorArray.doctor_ID}
+													value={
+														doctorArray.doctor_ID
+													}
 													{...register('doctor')}>
-													{doctors.fullname}
+													{doctorArray.full_name}
 												</option>
 											))}
 										</Select>
@@ -243,6 +282,9 @@ export default function Appointments() {
 							<Input width={400} bg="blue.100" type="submit" />
 						</FormControl>
 					</form>
+					<br />
+					<br />
+					<CardFooter bg="blue.400">{message}</CardFooter>
 				</CardBody>
 			</Card>
 		</VStack>

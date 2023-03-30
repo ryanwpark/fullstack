@@ -10,20 +10,21 @@ export default function ApptHistory() {
 
 	useEffect(() => {
 		axios
-			.get('http://localhost:3000/appt/patient/history')
+			.get('http://localhost:3000/patient/appthistory')
 			.then((response) => {
+				console.log('MY RESPONSE');
 				console.log(response);
 				setMyAppointments(response.data);
 			})
 			.catch((error) => {
-				console.log('error from location.js');
+				// console.log('error from location.js');
 				console.log(error);
 			});
 	}, []);
 
 	useEffect(() => {
 		// access the updated state
-		console.log(myAppointments);
+		// console.log(myAppointments);
 		// now you can access the objects in the array like this
 		setFirstObject(myAppointments[0]);
 		setSecondObject(myAppointments[1]);
@@ -73,7 +74,7 @@ export default function ApptHistory() {
 				))}
 			</Tbody> */}
 			<Tbody>
-				{myAppointments.map((appointment) => (
+				{myAppointments?.map((appointment) => (
 					<Tr key={appointment.appointment_id}>
 						<Td>{appointment.appt_date}</Td>
 						<Td>{appointment.appt_office_id}</Td>

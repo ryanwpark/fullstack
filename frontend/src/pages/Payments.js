@@ -12,6 +12,7 @@ import {
 	CardBody,
 	FormControl,
 	Box,
+	CardFooter,
 } from '@chakra-ui/react';
 import { PhoneIcon, EmailIcon } from '@chakra-ui/icons';
 import { UilUser, UilHome, UilCreditCard } from '@iconscout/react-unicons';
@@ -22,7 +23,9 @@ import axios from 'axios';
 
 function Payments() {
 	const { register, handleSubmit } = useForm({});
+	const [message, setMessage] = React.useState('');
 
+	const [errMessage, setErrMessage] = React.useState('');
 	const [cctype, setCCtype] = React.useState('');
 	const onSubmit = (data) => {
 		console.log('DATA:');
@@ -33,10 +36,14 @@ function Payments() {
 			})
 			.then((response) => {
 				console.log('RESPONSE.DATA:');
-				console.log(response.data);
+				setMessage(response.data.message);
+				setErrMessage('');
+				console.log(response.data.message);
 			})
 			.catch((error) => {
 				console.log('ERROR.DATA:');
+				setErrMessage('Sorry, something went wrong');
+				setMessage('');
 				console.log(error.data);
 			});
 	};
@@ -68,7 +75,7 @@ function Payments() {
 											children="#"
 										/>
 										<Input
-											isrequired="false"
+											isRequired
 											className="billingid"
 											focusBorderColor="blue.300"
 											type="number"
@@ -87,7 +94,7 @@ function Payments() {
 										<Input
 											type="text"
 											className="firstname"
-											isrequired="false"
+											isRequired
 											placeholder="First Name"
 											// value={firstname}
 											// {...register('firstname')}
@@ -105,7 +112,7 @@ function Payments() {
 										<Input
 											type="text"
 											className="lastname"
-											isrequired="false"
+											isRequired
 											// value={lastname}
 											placeholder="Last Name"
 											// {...register('lastname')}
@@ -121,7 +128,7 @@ function Payments() {
 										/>
 										<Input
 											type="email"
-											isrequired="false"
+											isRequired
 											className="emailaddress"
 											// value={email}
 											focusBorderColor="blue.300"
@@ -139,7 +146,7 @@ function Payments() {
 										/>
 										<Input
 											type="tel"
-											isrequired="false"
+											isRequired
 											pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
 											focusBorderColor="blue.300"
 											className="phonenumber"
@@ -157,7 +164,7 @@ function Payments() {
 										/>
 										<Input
 											type="number"
-											isrequired="false"
+											isRequired
 											focusBorderColor="blue.300"
 											placeholder="Enter amount"
 											className="paymenttotal"
@@ -282,7 +289,7 @@ function Payments() {
 										/>
 										<Input
 											type="number"
-											isrequired="false"
+											isRequired
 											className="ccnumber"
 											placeholder="Credit Card Number"
 											focusBorderColor="blue.300"
@@ -298,7 +305,7 @@ function Payments() {
 										/>
 										<Input
 											type="number"
-											isrequired="false"
+											isRequired
 											className="ccv"
 											focusBorderColor="blue.300"
 											placeholder="CCV"
@@ -314,7 +321,7 @@ function Payments() {
 										/>
 										<Input
 											type="month"
-											isrequired="false"
+											isRequired
 											className="expirationdate"
 											placeholder="Expiration Date"
 											focusBorderColor="blue.300"
@@ -331,6 +338,13 @@ function Payments() {
 						</VStack>
 					</form>
 				</CardBody>
+				<CardFooter textColor="red" alignSelf="center">
+					{errMessage}
+				</CardFooter>
+				<br />
+				<CardFooter textColor="green" alignSelf="center">
+					{message}
+				</CardFooter>
 			</Card>
 		</VStack>
 	);
