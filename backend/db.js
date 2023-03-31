@@ -54,6 +54,13 @@ function getPatientAppts(callback) {
 		callback
 	);
 }
+function getUpcomingPatientAppts(time, date, callback) {
+	connection.query(
+		'SELECT * FROM appoinment WHERE appt_Patient_id = 21 AND appt_time > ? AND appt_date > ?',
+		[time, date],
+		callback
+	);
+}
 
 function makeBloodTest(id, type, rb, wb, hg, ht, pt, callback) {
 	connection.query(
@@ -63,20 +70,14 @@ function makeBloodTest(id, type, rb, wb, hg, ht, pt, callback) {
 	);
 }
 
-function selfBookingApptNoRef(
-	docid,
-	offid,
-	formattedDate,
-	timeValue,
-	callback
-) {
+function selfBookingApptNoRef(docid, offid, date, time, callback) {
 	connection.query(
 		'INSERT INTO appoinment (appt_Patient_id, appt_Doctor_id, appt_office_id, appt_date, appt_time, ref_id) VALUES (21, ?, ?, ?, ?, NULL)',
-		[docid, offid, formattedDate, timeValue],
-		callback,
+		[docid, offid, date, time],
 		callback
 	);
 }
+// INSERT INTO appoinment (appt_Patient_id, appt_Doctor_id, appt_office_id, appt_date, appt_time, ref_id) VALUES ("21", "32", "1", 2023-03-16, "00:30:00", NULL)
 
 function deleteAppt(id, callback) {
 	connection.query(
@@ -100,4 +101,5 @@ module.exports = {
 	getApptDoctors,
 	getApptDoctorsTimes,
 	selfBookingApptNoRef,
+	getUpcomingPatientAppts,
 };

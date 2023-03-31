@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
 	Accordion,
 	AccordionItem,
@@ -77,9 +77,6 @@ export default function PatientDash() {
 						bg="blue.100">
 						<Box as="span" flex="1" textAlign="left" p={3}>
 							Appointment History
-						</Box>
-						<Box>
-							<ApptHistory />
 						</Box>
 						<AccordionIcon />
 					</AccordionButton>

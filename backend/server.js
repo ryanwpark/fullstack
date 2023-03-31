@@ -140,6 +140,57 @@ const server = http.createServer((req, res) => {
 				}
 			});
 		});
+	} else if (path === '/patient/upcomingappt' && method === 'GET') {
+		// Get all users
+		res.writeHead(200, {
+			'Access-Control-Allow-Origin': '*',
+			'Access-Control-Allow-Methods': '*',
+			'Access-Control-Allow-Headers': 'Content-Type',
+			'Access-Control-Max-Age': 86400, // 24 hours
+		});
+		const now = new Date();
+		const time = now.toTimeString().split(' ')[0];
+		const date = now.toISOString().split('T')[0];
+
+		// console.log('time and date', time, ' ', date);
+
+		db.getUpcomingPatientAppts(time, date, (err, results) => {
+			if (err) {
+				res.statusCode = 500;
+				res.end(JSON.stringify({ message: 'Internal Server Error' }));
+			} else {
+				res.statusCode = 200;
+				res.end(JSON.stringify(results));
+			}
+		});
+	} else if (path === '/patient/pay' && method === 'POST') {
+		let body = '';
+		req.on('data', (chunk) => {
+			body += chunk.toString();
+		});
+		req.on('end', () => {
+			const data = JSON.parse(body);
+			const billingid = data.Invoice_id; // assuming your JSON data has a 'billingid' field
+			res.writeHead(200, {
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Methods': '*',
+				'Access-Control-Allow-Headers': 'Content-Type',
+				'Access-Control-Max-Age': 86400, // 24 hours
+			});
+			db.payInvoice(billingid, (err, results) => {
+				if (err) {
+					res.statusCode = 500;
+					res.end(
+						JSON.stringify({ message: 'Internal Server Error' })
+					);
+				} else {
+					res.statusCode = 200;
+					res.end(
+						JSON.stringify({ message: 'Invoice has been paid' })
+					);
+				}
+			});
+		});
 	} else if (path === '/patient/blood' && method === 'GET') {
 		// Get all users
 		res.writeHead(200, {
@@ -171,6 +222,7 @@ const server = http.createServer((req, res) => {
 		});
 		req.on('end', () => {
 			const data = JSON.parse(body);
+			// console.log('My Data:', data);
 			const location = data.location;
 			const chosenreason = data.reason; //reason on the right must be in json, ex: {"reason":"general"}
 			db.getApptDoctors(location, chosenreason, (err, results) => {
@@ -232,74 +284,47 @@ const server = http.createServer((req, res) => {
 			'Access-Control-Allow-Headers': 'Content-Type',
 			'Access-Control-Max-Age': 86400, // 24 hours
 		});
+
 		let body = '';
 		req.on('data', (chunk) => {
 			body += chunk.toString();
 		});
 		req.on('end', () => {
 			const data = JSON.parse(body);
-			const docid = data.doctor;
-			const offid = data.location;
-			const dateTimeString = data.DatePicker;
 
-			const parts = dateTimeString.split(' ');
-			const dateValue = `${parts[0]} ${parts[1]} ${parts[2]} ${parts[3]}`;
+			// console.log('My req:', data);
+			const docid = data.data.doctor;
+			// console.log('My doc', docid);
+			const offid = data.data.location;
+			const tempdate = data.data.DatePicker;
+			// console.log('typeof', typeof tempdate);
 
-			const timeValue = parts[4];
-
-			const dateObj = new Date(dateValue);
-			const year = dateObj.getFullYear();
-			const month = ('0' + (dateObj.getMonth() + 1)).slice(-2);
-			const day = ('0' + dateObj.getDate()).slice(-2);
-
-			const formattedDate = `${year}-${month}-${day}`;
-			var refid = data.refid;
-			if (typeof refid === 'undefined') {
-				console.log(docid, offid, formattedDate, timeValue);
-				db.selfBookingApptNoRef(
-					docid,
-					offid,
-					formattedDate,
-					timeValue,
-					(err, results) => {
-						if (err) {
-							res.statusCode = 500;
-							res.end(
-								JSON.stringify({
-									message: 'Internal Server Error',
-								})
-							);
-						} else {
-							res.statusCode = 200;
-							res.write('Successfully Booked Appointment');
-							res.end();
-						}
+			const date = tempdate.slice(0, 10);
+			const time = tempdate.slice(11, 19);
+			console.log('Inserting', docid, offid, date, time);
+			db.selfBookingApptNoRef(
+				docid,
+				offid,
+				date,
+				time,
+				(err, results) => {
+					if (err) {
+						res.statusCode = 500;
+						res.write(
+							'Sorry you may need a referral and/or that appointment is booked'
+						);
+						res.end(
+							JSON.stringify({
+								message: 'Internal Server Error',
+							})
+						);
+					} else {
+						res.statusCode = 200;
+						res.write('Successfully Booked Appointment');
+						res.end();
 					}
-				);
-			} else {
-				console.log(docid, offid, refid, formattedDate, timeValue);
-				db.selfBookingAppt(
-					docid,
-					offid,
-					refid,
-					formattedDate,
-					timeValue,
-					(err, results) => {
-						if (err) {
-							res.statusCode = 500;
-							res.end(
-								JSON.stringify({
-									message: 'Internal Server Error',
-								})
-							);
-						} else {
-							res.statusCode = 200;
-							res.write('Successfully Booked Appointment');
-							res.end();
-						}
-					}
-				);
-			}
+				}
+			);
 		});
 	} else if (path === '/patient/appt/delete' && method === 'POST') {
 		res.writeHead(200, {

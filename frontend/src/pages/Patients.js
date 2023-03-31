@@ -3,8 +3,7 @@ import { Box, Card, CardBody, CardHeader, VStack } from '@chakra-ui/react';
 import PatientsFooter from '../components/Footer/PatientsFooter';
 import banner from './banner.jpg';
 import PatientDash from '../components/PatientComps/PatientDash';
-import PatApptTable from '../components/PatientComps/PatApptTable';
-import ApptHistory from '../components/PatientComps/ApptHistory';
+import UpcomingAppt from '../components/PatientComps/UpcomingAppt';
 
 export default function Patients() {
 	return (
@@ -26,7 +25,7 @@ export default function Patients() {
 					<CardHeader bg="blue.100" p={1} textAlign="center">
 						Upcoming Appointments
 					</CardHeader>
-					<ApptHistory />
+					<UpcomingAppt />
 					{/* <CardBody>
 						<PatApptTable/>
 					</CardBody> */}

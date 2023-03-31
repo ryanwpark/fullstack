@@ -28,10 +28,13 @@ export default function Appointments() {
 	const [location, setLocation] = useState('');
 	const [reason, setReason] = useState('');
 	const [message, setMessage] = useState('');
+	const [date, setDate] = useState('');
+	// const [apptTime, setApptTime] = useState('');
+	// const [apptDate, setApptDate] = useState('');
 
 	// GET DOCTORS
 	useEffect(() => {
-		// console.log(location, reason);
+		// console.log('MyLocation&Reason', location, reason);
 		if (location && reason) {
 			axios
 				.post('http://localhost:3000/patient/bookappt/doctors', {
@@ -41,11 +44,12 @@ export default function Appointments() {
 				.then((response) => {
 					// console.log(response.data);
 					setDoctorArray(response.data);
+					setMessage(response.message);
 					// console.log(doctorArray);
 				})
 				.catch((error) => {
 					console.log('error2');
-					// console.log('GET FILTERED DOCTORS');
+					setMessage('Appointment is already booked');
 					console.log(error);
 				});
 		} else {
@@ -54,7 +58,7 @@ export default function Appointments() {
 	}, [location, reason]);
 
 	const onSubmit = (data) => {
-		if (location && reason && selectedDoctor && DatePicker) {
+		if (location && reason && selectedDoctor && date) {
 			if (location === 'Houston') {
 				data.location = '1';
 			} else if (location === 'Dallas') {
@@ -62,19 +66,20 @@ export default function Appointments() {
 			} else if (location === 'Austin') {
 				data.location = '3';
 			}
-			console.log('DATA:');
-			console.log(data);
+			const temptemp = data.DatePicker.toISOString();
+			data.DatePicker = temptemp;
+			console.log('Sending:', data);
 			axios
-				.post('http://localhost:3000/patient/bookappt/noRef', data, {
-					headers: { 'Content-Type': 'application/json' },
+				.post('http://localhost:3000/patient/bookappt/noRef', {
+					data,
 				})
 				.then((response) => {
-					console.log('RESPONSE.DATA:');
-					setMessage('Appointment successfully booked!');
-					console.log(response.data);
+					console.log('RESPONSE DATA:');
+					setMessage('Appointment Successfully Booked!');
+					// console.log(response.data);
 				})
 				.catch((error) => {
-					console.log('ERROR.DATA:');
+					console.log('ERROR DATA:');
 					setMessage('Sorry, that date is already booked');
 					console.log(error.data);
 				});
@@ -85,14 +90,19 @@ export default function Appointments() {
 	// 	// console.log('CALLING EFFECT');
 	// 	// console.log(selectedDoctor);
 	// 	if (selectedDoctor) {
+	// 		console.log(typeof selectedDoctor[0]);
+	// 		// const names = selectedDoctor.split(' ');
+	// 		const first = 'temp';
+	// 		const last = 'temp';
+	// 		console.log('name:', first, last);
 	// 		axios
 	// 			.post(
 	// 				'http://localhost:3000/patient/bookappt/doctors/datetimes',
 	// 				{
 	// 					location,
 	// 					reason,
-	// 					first,
-	// 					last,
+	// 					// first,
+	// 					// last,
 	// 				}
 	// 			)
 	// 			.then((response) => {
@@ -139,7 +149,7 @@ export default function Appointments() {
 										<FormLabel>Location</FormLabel>
 										<RadioGroup
 											className="location"
-											isRequired
+											isrequired="true"
 											onChange={setLocation}
 											value={location}>
 											<Stack direction="row">
@@ -173,7 +183,7 @@ export default function Appointments() {
 										<RadioGroup
 											className="reason"
 											onChange={setReason}
-											isRequired
+											isrequired="true"
 											value={reason}>
 											<Stack direction="row">
 												<Radio
@@ -212,22 +222,21 @@ export default function Appointments() {
 
 										<Select
 											value={selectedDoctor}
-											isRequired
+											isrequired="true"
 											placeholder="Select Doctor"
-											onChange={(e) =>
+											onChange={(e) => {
+												console.log(e.target.value);
 												setSelectedDoctor(
 													e.target.value
-												)
-											}
+												);
+											}}
 											disabled={!reason && !location}>
-											{doctorArray.map((doctorArray) => (
+											{doctorArray.map((doctor) => (
 												<option
-													key={doctorArray.doctor_ID}
-													value={
-														doctorArray.doctor_ID
-													}
+													key={doctor.doctor_ID}
+													value={doctor.doctor_ID}
 													{...register('doctor')}>
-													{doctorArray.full_name}
+													{doctor.full_name}
 												</option>
 											))}
 										</Select>
@@ -267,7 +276,14 @@ export default function Appointments() {
 													inline
 													showTimeSelect
 													selected={value}
-													onChange={onChange}
+													// excludeDates={apptDate}
+													// excludeTimes={apptTime}
+													// {...register('date')}
+													onChange={(date) => {
+														// console.log(date);
+														setDate(date);
+														onChange(date);
+													}}
 													dateFormat="MMMM d, yyyy h:mm aa"
 													placeholderText="Select a Date"
 												/>
