@@ -6,6 +6,7 @@ import PatientDash from '../components/PatientComps/PatientDash';
 import UpcomingAppt from '../components/PatientComps/UpcomingAppt';
 
 export default function Patients() {
+	console.log(window.localStorage.getItem('name'));
 	return (
 		<VStack
 			spacing={8}

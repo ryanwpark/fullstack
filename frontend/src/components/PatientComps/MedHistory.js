@@ -1,41 +1,51 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, Tbody, Tr, Th, Td } from '@chakra-ui/react';
+import axios from 'axios';
 
-const Row = (props) => {
-	const { allergies, conditions, medications, vaccs } = props;
-	return (
-		<Tr>
-			<Td>{allergies}</Td>
-			<Td>{vaccs}</Td>
-			<Td>{medications}</Td>
-			<Td>{conditions}</Td>
-		</Tr>
-	);
-};
+export default function ApptHistory() {
+	const [myAppointments, setMyAppointments] = useState([]);
 
-const MedHistory = (props) => {
-	const { data } = props;
+	useEffect(() => {
+		axios
+			.get('http://localhost:3000/patient/medicalhistory')
+			.then((response) => {
+				console.log('MY RESPONSE');
+				console.log(response);
+				setMyAppointments(response.data);
+			})
+			.catch((error) => {
+				// console.log('error from location.js');
+				console.log(error);
+			});
+	}, []);
+
 	return (
 		<Table variant="striped" colorScheme="blue">
-			<Th>Allergies</Th>
-			<Th>Vaccinations</Th>
-			<Th>Current Medications</Th>
-			<Th>Pre-existing Conditions</Th>
-
 			<Tbody>
-				{data.map((row, index) => (
-					<Row
-						// eslint-disable-next-line
-						key={'key -${index}'}
-						allergies={row.allergies}
-						vaccs={row.vaccs}
-						medications={row.medications}
-						conditions={row.conditions}
-					/>
+				<Th>Current Medications</Th>
+				<Th>Smoker</Th>
+				<Th>Diabete</Th>
+				<Th>Heart Disease</Th>
+				<Th>Pregnant</Th>
+				<Th>Sexually Active</Th>
+				<Th>Cancer</Th>
+				{myAppointments?.map((appointment) => (
+					<Tr key={appointment.med_h_ID}>
+						<Td>{appointment.med_h_current_meds}</Td>
+						<Td>{appointment.med_h_smoker ? 'Yes' : 'No'}</Td>
+						<Td>{appointment.med_h_diabetes ? 'Yes' : 'No'}</Td>
+
+						<Td>
+							{appointment.med_h_heart_disease ? 'Yes' : 'No'}
+						</Td>
+						<Td>{appointment.med_h_pregnant ? 'Yes' : 'No'}</Td>
+						<Td>
+							{appointment.med_h_sexual_active ? 'Yes' : 'No'}
+						</Td>
+						<Td>{appointment.med_h_cancer ? 'Yes' : 'No'}</Td>
+					</Tr>
 				))}
 			</Tbody>
 		</Table>
 	);
-};
-
-export default MedHistory;
+}

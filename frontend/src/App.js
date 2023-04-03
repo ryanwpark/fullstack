@@ -10,13 +10,14 @@ import { ChakraProvider } from '@chakra-ui/react';
 import Login from './pages/Login';
 import Appointments from './pages/Appointments';
 import Patients from './pages/Patients';
-import Doctor from './Doctor';
+import Doctor from './pages/Doctor';
 import Employees from './pages/Employees';
 import DoctorPrevAppt from './components/DoctorComps/DoctorPrevAppt';
 import AppointmentManager from './components/EmployeeComps/AppointmentManager';
 import PatientUpdate from './components/PatientComps/PatientUpdate';
 import PatientLookup from './pages/PatientLookup';
 import CreateTest from './components/EmployeeComps/CreateTest';
+import DoctorPatientUpdate from './components/DoctorComps/DoctorPatientUpdate';
 
 function App() {
 	return (
@@ -66,6 +67,11 @@ function App() {
 							exact
 							path="/patientlookup"
 							element={<PatientLookup />}
+						/>
+						<Route
+							exact
+							path="/docpatientupdate"
+							element={<DoctorPatientUpdate />}
 						/>
 					</Routes>
 				</BrowserRouter>

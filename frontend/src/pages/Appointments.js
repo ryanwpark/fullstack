@@ -29,6 +29,7 @@ export default function Appointments() {
 	const [reason, setReason] = useState('');
 	const [message, setMessage] = useState('');
 	const [date, setDate] = useState('');
+	const [refID, setRefID] = useState('');
 	// const [apptTime, setApptTime] = useState('');
 	// const [apptDate, setApptDate] = useState('');
 
@@ -37,7 +38,7 @@ export default function Appointments() {
 		// console.log('MyLocation&Reason', location, reason);
 		if (location && reason) {
 			axios
-				.post('http://localhost:3000/patient/bookappt/doctors', {
+				.post('http://localhost:3000/patient/bookappt/getdoctors', {
 					location,
 					reason,
 				})
@@ -48,9 +49,9 @@ export default function Appointments() {
 					// console.log(doctorArray);
 				})
 				.catch((error) => {
-					console.log('error2');
-					setMessage('Appointment is already booked');
-					console.log(error);
+					// console.log('error2');
+					// setMessage('Appointment is already booked');
+					// console.log(error);
 				});
 		} else {
 			setDoctorArray([]);
@@ -62,11 +63,17 @@ export default function Appointments() {
 			if (location === 'Houston') {
 				data.location = '1';
 			} else if (location === 'Dallas') {
-				data.location = '2';
-			} else if (location === 'Austin') {
 				data.location = '3';
+			} else if (location === 'Austin') {
+				data.location = '2';
 			}
+			// console.log('convert this:', data.DatePicker);
+			const datePicker = data.DatePicker;
+			const timezoneOffset = 5; // in hours
+
+			datePicker.setHours(datePicker.getHours() - timezoneOffset);
 			const temptemp = data.DatePicker.toISOString();
+			// console.log('converted:', temptemp);
 			data.DatePicker = temptemp;
 			console.log('Sending:', data);
 			axios
@@ -74,14 +81,21 @@ export default function Appointments() {
 					data,
 				})
 				.then((response) => {
-					console.log('RESPONSE DATA:');
-					setMessage('Appointment Successfully Booked!');
+					// console.log(response.data);
+					if (response.status === 200) {
+						// console.log('Response status:', response.status);
+						setMessage(response.data);
+					} else {
+						// console.log('Response status:', response.status);
+						setMessage(response.data);
+					}
+
 					// console.log(response.data);
 				})
 				.catch((error) => {
-					console.log('ERROR DATA:');
-					setMessage('Sorry, that date is already booked');
-					console.log(error.data);
+					// console.log('error:', error);
+					setMessage('Sorry, there was an error');
+					// console.log(error.data);
 				});
 		}
 	};
@@ -141,6 +155,7 @@ export default function Appointments() {
 			</Box>
 			<Card height="50vh" alignSelf="center">
 				<CardBody>
+					<CardFooter bg="blue.400">{message}</CardFooter>
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<HStack spacing={10}>
 							<VStack spacing={8}>
@@ -195,19 +210,22 @@ export default function Appointments() {
 												</Radio>
 												<Radio
 													size="sm"
-													value="cardio"
+													value="Cardiology"
+													disabled={!refID}
 													{...register('reason')}>
 													Cardiovascular
 												</Radio>
 												<Radio
 													size="sm"
-													value="gastro"
+													value="Gastroentology"
+													disabled={!refID}
 													{...register('reason')}>
 													Gastroentology
 												</Radio>
 												<Radio
 													size="sm"
-													value="radio"
+													value="Radiology"
+													disabled={!refID}
 													{...register('reason')}>
 													Radiology
 												</Radio>
@@ -218,25 +236,39 @@ export default function Appointments() {
 
 								<FormControl>
 									<HStack>
-										<FormLabel>Doctor</FormLabel>
+										<FormLabel>Referral ID</FormLabel>
 
+										<Input
+											type="text"
+											onChange={setRefID}
+											className="refid"
+											placeholder="Optional"
+											{...register('refid')}
+										/>
+									</HStack>
+								</FormControl>
+
+								<FormControl>
+									<HStack>
+										<FormLabel>Doctor</FormLabel>
 										<Select
 											value={selectedDoctor}
 											isrequired="true"
 											placeholder="Select Doctor"
 											onChange={(e) => {
-												console.log(e.target.value);
+												// console.log(e.target.value);
 												setSelectedDoctor(
 													e.target.value
 												);
 											}}
+											// {...register('doctor_id')}
 											disabled={!reason && !location}>
 											{doctorArray.map((doctor) => (
 												<option
-													key={doctor.doctor_ID}
-													value={doctor.doctor_ID}
-													{...register('doctor')}>
-													{doctor.full_name}
+													key={doctor.doctor_id}
+													{...register('doctor_id')}
+													value={doctor.doctor_id}>
+													{doctor.doctor_name}
 												</option>
 											))}
 										</Select>
@@ -300,7 +332,6 @@ export default function Appointments() {
 					</form>
 					<br />
 					<br />
-					<CardFooter bg="blue.400">{message}</CardFooter>
 				</CardBody>
 			</Card>
 		</VStack>

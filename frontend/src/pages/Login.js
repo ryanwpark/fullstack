@@ -18,37 +18,65 @@ export default function Login() {
 	const [errorMessage, setErrorMessage] = useState('');
 	const navigate = useNavigate();
 
+	// const handleLogin = async (event) => {
+	// 	event.preventDefault();
+	// 	try {
+	// 		//DEBUGGING
+	// 		// const response = await axios.post(
+	// 		// 	'http://localhost:3000/login/portal',
+	// 		// 	{
+	// 		// 		log_username: username,
+	// 		// 		log_pass: password,
+	// 		// 	}
+	// 		// );
+	// 		// console.log(response);
+	// 		const { data } = await axios.post(
+	// 			'http://localhost:3000/login',
+	// 			{ username, password }, // Send the JSON body with the username and password properties
+	// 			{ headers: { 'Content-Type': 'application/json' } } // Set the 'Content-Type' header to 'application/json'
+	// 		);
+	// 		console.log('My response.data:');
+	// 		// console.log(data);
+	// 		if (data.success && data.token === 1) {
+	// 			navigate('/patients');
+	// 		} else if (data.success && data.token === 2) {
+	// 			navigate('/employees');
+	// 		} else if (data.success && data.token === 3) {
+	// 			navigate('/doctor');
+	// 		}
+
+	// 		// navigate('/patients');
+	// 	} catch (err) {
+	// 		console.log(err);
+	// 		setErrorMessage('Invalid username or password');
+	// 	}
+	// };
 	const handleLogin = async (event) => {
 		event.preventDefault();
 		try {
-			//DEBUGGING
-			// const response = await axios.post(
-			// 	'http://localhost:3000/login/portal',
-			// 	{
-			// 		log_username: username,
-			// 		log_pass: password,
-			// 	}
-			// );
-			// console.log(response);
 			const { data } = await axios.post(
-				'http://localhost:3000/login',
-				{ username, password }, // Send the JSON body with the username and password properties
-				{ headers: { 'Content-Type': 'application/json' } } // Set the 'Content-Type' header to 'application/json'
+				'http://localhost:3000/login/test',
+				{
+					username: username,
+					password: password,
+				}
 			);
-			console.log('My response.data:');
 			// console.log(data);
-			if (data.success && data.token === 1) {
+			//data.role===1,2,3
+			if (data.username === 'wade123') {
 				navigate('/patients');
-			} else if (data.success && data.token === 2) {
+			} else if (data.role === '2') {
 				navigate('/employees');
-			} else if (data.success && data.token === 3) {
+			} else if (data.role === '3') {
 				navigate('/doctor');
 			}
-
-			// navigate('/patients');
-		} catch (err) {
-			console.log(err);
-			setErrorMessage('Invalid username or password');
+			localStorage.setItem('token', data.token);
+			localStorage.setItem('name', data.username);
+			// const token = response.data.token;
+			// console.log(response.data); // log the response data
+		} catch (error) {
+			setErrorMessage(error.response.data);
+			console.log(error.response.data); // log the error response data
 		}
 	};
 

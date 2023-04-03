@@ -29,7 +29,7 @@ export default function PatientDash() {
 				</h2>
 				<AccordionPanel>
 					<TableContainer>
-						{/* <BillingTable data={billrows}></BillingTable> */}
+						<BillingTable />
 					</TableContainer>
 				</AccordionPanel>
 			</AccordionItem>
@@ -47,7 +47,7 @@ export default function PatientDash() {
 				</h2>
 				<AccordionPanel>
 					<TableContainer>
-						{/* <BloodTest data={bloodrows} /> */}
+						<BloodTest />
 					</TableContainer>
 				</AccordionPanel>
 			</AccordionItem>
@@ -65,7 +65,7 @@ export default function PatientDash() {
 				</h2>
 				<AccordionPanel>
 					<TableContainer>
-						{/* <MedHistory data={medrows} /> */}
+						<MedHistory />
 					</TableContainer>
 				</AccordionPanel>
 			</AccordionItem>

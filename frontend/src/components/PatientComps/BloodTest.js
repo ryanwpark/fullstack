@@ -1,51 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, Tbody, Tr, Th, Td } from '@chakra-ui/react';
+import axios from 'axios';
 
-const Row = (props) => {
-	const { date, bloodtype, rbc, wbc, hmg, hmt, pltct } = props;
-	return (
-		<Tr>
-			<Td>{date}</Td>
-			<Td>{bloodtype}</Td>
-			<Td>{rbc}</Td>
-			<Td>{wbc}</Td>
+export default function ApptHistory() {
+	const [myAppointments, setMyAppointments] = useState([]);
 
-			<Td>{hmg}</Td>
-			<Td>{hmt}</Td>
+	useEffect(() => {
+		axios
+			.get('http://localhost:3000/patient/blood/history')
+			.then((response) => {
+				console.log('MY RESPONSE');
+				console.log(response);
+				setMyAppointments(response.data);
+			})
+			.catch((error) => {
+				// console.log('error from location.js');
+				console.log(error);
+			});
+	}, []);
 
-			<Td>{pltct}</Td>
-		</Tr>
-	);
-};
-
-const BloodTest = (props) => {
-	const { data } = props;
 	return (
 		<Table variant="striped" colorScheme="blue">
-			<Th>Date</Th>
-			<Th>Blood Type</Th>
-			<Th fontSize={9}>BLOOD RBC (MILLION)(CELLS/MCL)</Th>
-			<Th fontSize={9}>BLOOD WBC (THOUSAND)(CELLS/MCL) </Th>
-			<Th fontSize={9}>BLOOD HEMOGLOBIN (G/DL)</Th>
-			<Th fontSize={9}>BLOOD HEMATOCRIT (%)</Th>
-			<Th fontSize={9}>BLOOD PLATELETS (THOUSAND) (PLATELETS/MCL)</Th>
 			<Tbody>
-				{data.map((row, index) => (
-					<Row
-						// eslint-disable-next-line
-						key={'key -${index}'}
-						date={row.date}
-						bloodtype={row.bloodtype}
-						wbc={row.wbc}
-						rbc={row.rbc}
-						hmg={row.hmg}
-						hmt={row.hmt}
-						pltct={row.pltct}
-					/>
+				<Th>Blood Type</Th>
+				<Th>WBC</Th>
+				<Th>RBC</Th>
+				<Th>Hemoglobin count</Th>
+				<Th>Hematocrit %</Th>
+				<Th>Platelets count</Th>
+				{myAppointments?.map((appointment) => (
+					<Tr key={appointment.Blood_ID}>
+						<Td>{appointment.blo_type}</Td>
+						<Td>{appointment.blo_WBC}</Td>
+						<Td>{appointment.blo_RBC}</Td>
+						<Td>{appointment.blo_hemoglobin}</Td>
+						<Td>{appointment.blo_Hematocrit_percent}</Td>
+						<Td>{appointment.blo_platelets}</Td>
+					</Tr>
 				))}
 			</Tbody>
 		</Table>
 	);
-};
-
-export default BloodTest;
+}

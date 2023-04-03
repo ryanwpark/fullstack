@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+const { user } = require('./config');
 const config = require('./config');
 
 const connection = mysql.createConnection(config);
@@ -17,6 +18,48 @@ function getBlood(callback) {
 	connection.query('SELECT * FROM blood_cbc_test', callback);
 }
 
+// function authenticateUser(username, password, callback) {
+// 	connection.query(
+// 		'SELECT * FROM login WHERE log_username = ? AND log_pass = ?',
+// 		[username, password],
+// 		callback
+// 	);
+// }
+
+function authenticateUser(username, password, callback) {
+	const connection = mysql.createConnection(config);
+
+	connection.connect((err) => {
+		if (err) {
+			console.error('error connecting: ' + err.stack);
+			callback(err);
+			return;
+		}
+		// console.log('connected as id ' + connection.threadId);
+
+		connection.query(
+			'SELECT * FROM login WHERE log_username = ? AND log_pass = ?',
+			[username, password],
+			(error, results, fields) => {
+				// Release the connection
+				connection.end();
+
+				if (error) {
+					console.error('error querying: ' + error.stack);
+					callback(error);
+					return;
+				}
+
+				if (results.length === 0) {
+					callback(null, null);
+				} else {
+					callback(null, results[0]);
+				}
+			}
+		);
+	});
+}
+
 // function getApptDoctors(location, reason, callback) {
 // 	connection.query(
 // 		"SELECT DISTINCT CONCAT(doctor_first_name, ' ', doctor_last_name) AS full_name FROM doctor INNER JOIN office ON doctor.office_id = office.office_id WHERE office.city = ? AND doctor.doctor_specialization = ?",
@@ -26,7 +69,7 @@ function getBlood(callback) {
 // }
 function getApptDoctors(location, reason, callback) {
 	connection.query(
-		"SELECT DISTINCT doctor.doctor_ID, CONCAT(doctor.doctor_first_name, ' ', doctor.doctor_last_name) AS full_name FROM doctor INNER JOIN office ON doctor.office_id = office.office_id WHERE office.city = ? AND doctor.doctor_specialization = ?",
+		'SELECT DISTINCT doctor.doctor_id,doctor.doctor_name FROM doctor INNER JOIN office ON doctor.office_id = office.office_id WHERE office.city = ? AND doctor.doctor_specialization = ?',
 		[location, reason],
 		callback
 	);
@@ -48,16 +91,57 @@ function payInvoice(id, callback) {
 	);
 }
 
-function getPatientAppts(callback) {
+//IDK THE SQL QUERY FOR THIS
+function getPatientData(id, callback) {
+	connection.query('select * from ', [id], callback);
+}
+
+function getPatientApptHistory(callback) {
 	connection.query(
-		'SELECT * from appoinment WHERE appt_Patient_id=21',
+		"SELECT a.appointment_id, a.appt_Patient_id, d.doctor_name, o.city as office_city, a.ref_id, a.appt_date, a.appt_time FROM appoinment a INNER JOIN doctor d ON a.appt_Doctor_id = d.doctor_ID INNER JOIN office o ON a.appt_office_id = o.office_ID WHERE a.appt_Patient_id = 21 AND CONCAT(a.appt_date, ' ', a.appt_time) < NOW();",
 		callback
 	);
 }
-function getUpcomingPatientAppts(time, date, callback) {
+
+function getDoctorApptHistory(callback) {
 	connection.query(
-		'SELECT * FROM appoinment WHERE appt_Patient_id = 21 AND appt_time > ? AND appt_date > ?',
-		[time, date],
+		"SELECT * from appoinment WHERE appt_Doctor_id=32 AND CONCAT(appt_date, ' ', appt_time) < NOW()",
+		callback
+	);
+}
+
+function getPatientBloodHistory(callback) {
+	connection.query(
+		'SELECT * FROM blood_cbc_test WHERE blood_ID IN (SELECT gc_blood_test_ID FROM general_checkup WHERE patient_id = 21)',
+		callback
+	);
+}
+
+function getUpcomingPatientAppts(callback) {
+	connection.query(
+		"SELECT a.appointment_id, a.appt_Patient_id, d.doctor_name, o.city as office_city, a.ref_id, a.appt_date, a.appt_time FROM appoinment a INNER JOIN doctor d ON a.appt_Doctor_id = d.doctor_ID INNER JOIN office o ON a.appt_office_id = o.office_ID WHERE a.appt_Patient_id = 21 AND CONCAT(a.appt_date, ' ', a.appt_time) > NOW();",
+		callback
+	);
+}
+
+function getPatientMedicalHistory(callback) {
+	connection.query(
+		'select med_h_smoker,med_h_heart_disease,med_h_diabetes,med_h_current_meds,med_h_pregnant,med_h_sexual_active,med_h_cancer from medical_history where patient_id=21',
+		callback
+	);
+}
+
+function docGetUpcomingAppts(callback) {
+	connection.query(
+		"SELECT * FROM appoinment WHERE appt_doctor_id = 32 AND CONCAT(appt_date, ' ', appt_time) > NOW()",
+		callback
+	);
+}
+
+function cancelAppt(apptID, callback) {
+	connection.query(
+		'DELETE FROM appoinment WHERE appointment_id=?',
+		[apptID],
 		callback
 	);
 }
@@ -74,6 +158,17 @@ function selfBookingApptNoRef(docid, offid, date, time, callback) {
 	connection.query(
 		'INSERT INTO appoinment (appt_Patient_id, appt_Doctor_id, appt_office_id, appt_date, appt_time, ref_id) VALUES (21, ?, ?, ?, ?, NULL)',
 		[docid, offid, date, time],
+		callback
+	);
+}
+
+function getPatientBillingHistory(callback) {
+	connection.query('SELECT * from invoice where patient_id=21', callback);
+}
+function selfBookingApptRef(docid, offid, date, time, refID, callback) {
+	connection.query(
+		'INSERT INTO appoinment (appt_Patient_id, appt_Doctor_id, appt_office_id, appt_date, appt_time, ref_id) VALUES (21, ?, ?, ?, ?, ?)',
+		[docid, offid, date, time, refID],
 		callback
 	);
 }
@@ -97,9 +192,17 @@ module.exports = {
 	makeBloodTest,
 	deleteAppt,
 	getBlood,
-	getPatientAppts,
+	getPatientApptHistory,
 	getApptDoctors,
 	getApptDoctorsTimes,
 	selfBookingApptNoRef,
 	getUpcomingPatientAppts,
+	docGetUpcomingAppts,
+	cancelAppt,
+	getDoctorApptHistory,
+	authenticateUser,
+	selfBookingApptRef,
+	getPatientBillingHistory,
+	getPatientBloodHistory,
+	getPatientMedicalHistory,
 };

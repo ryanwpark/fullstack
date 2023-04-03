@@ -1,40 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, Tbody, Tr, Th, Td } from '@chakra-ui/react';
+import axios from 'axios';
 
-const Row = (props) => {
-	const { billingid, paymentamount, paymenttype, date } = props;
-	return (
-		<Tr>
-			<Td>{billingid}</Td>
-			<Td>{paymentamount}</Td>
-			<Td>{paymenttype}</Td>
-			<Td>{date}</Td>
-		</Tr>
-	);
-};
+export default function BillingTable() {
+	const [MyInvoices, setMyInvoices] = useState([]);
 
-const BillingTable = (props) => {
-	const { data } = props;
+	useEffect(() => {
+		axios
+			.get('http://localhost:3000/patient/billing/history')
+			.then((response) => {
+				console.log('MY RESPONSE');
+				console.log(response);
+				setMyInvoices(response.data);
+			})
+			.catch((error) => {
+				// console.log('error from location.js');
+				console.log(error);
+			});
+	}, []);
+
 	return (
 		<Table variant="striped" colorScheme="blue">
-			<Th>Billing ID</Th>
-			<Th>Payment Amount in Dollars $</Th>
-			<Th>Payment Type</Th>
-			<Th>Date</Th>
 			<Tbody>
-				{data.map((row, index) => (
-					<Row
-						// eslint-disable-next-line
-						key={'key -${index}'}
-						billingid={row.billingid}
-						paymentamount={row.paymentamount}
-						paymenttype={row.paymenttype}
-						date={row.date}
-					/>
+				<Th>Date</Th>
+				<Th>Cost $</Th>
+
+				<Th>Payment Method</Th>
+				<Th>Payment status</Th>
+				<Th>Insurance</Th>
+				<Th>Insurance Discount</Th>
+				{MyInvoices?.map((invoice) => (
+					<Tr key={invoice.invoice_id}>
+						<Td>{invoice.date_created}</Td>
+						<Td>{invoice.cost}</Td>
+						<Td>{invoice.payment_method}</Td>
+						<Td>{invoice.isPaid ? 'Paid' : 'Not Paid'}</Td>
+						<Td>{invoice.isInsured ? 'Covered' : 'Not Covered'}</Td>
+						<Td>
+							{invoice.insurance_discount
+								? 'Covered'
+								: 'Not Covered'}
+						</Td>
+					</Tr>
 				))}
 			</Tbody>
 		</Table>
 	);
-};
-
-export default BillingTable;
+}
