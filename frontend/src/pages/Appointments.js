@@ -81,6 +81,7 @@ export default function Appointments() {
 					data,
 				})
 				.then((response) => {
+					// console.log(response);
 					// console.log(response.data);
 					if (response.status === 200) {
 						// console.log('Response status:', response.status);

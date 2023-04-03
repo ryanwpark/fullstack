@@ -65,9 +65,9 @@ export default function Login() {
 			//data.role===1,2,3
 			if (data.username === 'wade123') {
 				navigate('/patients');
-			} else if (data.role === '2') {
+			} else if (data.username === 'daemployee') {
 				navigate('/employees');
-			} else if (data.role === '3') {
+			} else if (data.username === 'dadoctor') {
 				navigate('/doctor');
 			}
 			localStorage.setItem('token', data.token);

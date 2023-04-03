@@ -1,47 +1,83 @@
-import React from 'react';
-import { CloseIcon } from '@chakra-ui/icons';
-import { Table, Tbody, Tr, Td, IconButton, Th } from '@chakra-ui/react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Table, Tbody, Tr, Th, Td, Button } from '@chakra-ui/react';
 
-const Row = (props) => {
-	const { time, docname, patname, onDelete } = props;
-	return (
-		<Tr>
-			<Td>{time}</Td>
-			<Td>{docname}</Td>
-			<Td>{patname}</Td>
-			<IconButton
-				aria-label="Delete appointment"
-				icon={<CloseIcon />}
-				onClick={onDelete}
-			/>
-		</Tr>
-	);
-};
+export default function OfficeAppts() {
+	const [myAppointments, setMyAppointments] = useState([]);
 
-const OfficeAppts = (props) => {
-	const { data, setRows } = props;
-	const onDeleteRow = (index) => {
-		setRows((prevRows) => prevRows.filter((_, i) => i !== index));
+	useEffect(() => {
+		axios
+			.get('http://localhost:3000/employee/upcomingappt')
+			.then((response) => {
+				console.log('My response:', response.data);
+				setMyAppointments(response.data);
+			})
+			.catch((error) => {
+				console.log('!!!!! ', error);
+			});
+	}, []);
+
+	const cancelAppt = (appt_id) => {
+		console.log(appt_id);
+		axios
+			.post(
+				'http://localhost:3000/cancelappt',
+				{ appt_id: appt_id },
+				{
+					headers: { 'Content-Type': 'application/json' },
+				}
+			)
+			.then((response) => {
+				console.log('RESPONSE.DATA:');
+				console.log(response.data.message);
+			})
+			.catch((error) => {
+				console.log('ERROR.DATA:');
+				console.log(error.data);
+			});
 	};
+
+	const onDeleteRow = (appointmentId) => {
+		const updatedAppointments = myAppointments.filter(
+			(appointment) => appointment.appointment_id !== appointmentId
+		);
+		setMyAppointments(updatedAppointments);
+	};
+
 	return (
-		<Table colorScheme="blue">
-			<Th>Time</Th>
-			<Th>Doctor Name</Th>
-			<Th>Patient Name</Th>
+		<Table variant="striped" colorScheme="blue">
 			<Tbody>
-				{data.map((row, index) => (
-					<Row
-						// eslint-disable-next-line
-						key={'key -${index}'}
-						time={row.time}
-						docname={row.docname}
-						patname={row.patname}
-						onDelete={() => onDeleteRow(index)}
-					/>
-				))}
+				<Th>Appointment ID</Th>
+				<Th>Date</Th>
+				<Th>Time</Th>
+				<Th>Patient</Th>
+				<Th>Doctor</Th>
+				{myAppointments.length > 0 ? (
+					myAppointments.map((appointment) => (
+						<Tr key={appointment.appointment_id}>
+							<Td>{appointment.appointment_id}</Td>
+							<Td>{appointment.appt_date}</Td>
+							<Td>{appointment.appt_time}</Td>
+							<Td>{appointment.name}</Td>
+							<Td>{appointment.doctor_name}</Td>
+							<Td>
+								<Button
+									color="red"
+									onClick={() => {
+										onDeleteRow(appointment.appointment_id);
+										cancelAppt(appointment.appointment_id);
+									}}>
+									Delete
+								</Button>
+							</Td>
+						</Tr>
+					))
+				) : (
+					<Tr>
+						<Td colSpan={5}>No upcoming appointments</Td>
+					</Tr>
+				)}
 			</Tbody>
 		</Table>
 	);
-};
-
-export default OfficeAppts;
+}

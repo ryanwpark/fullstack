@@ -159,6 +159,89 @@ const server = http.createServer((req, res) => {
 				res.end(JSON.stringify(results));
 			}
 		});
+	} else if (path === '/employee/getappt' && method === 'POST') {
+		let body = '';
+		req.on('data', (chunk) => {
+			body += chunk.toString();
+		});
+		req.on('end', () => {
+			const data = JSON.parse(body);
+			// console.log('data:', data);
+			const apptid = data.apptid; // assuming your JSON data has a 'billingid' field
+			// console.log(apptid);
+			res.writeHead(200, {
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Methods': '*',
+				'Access-Control-Allow-Headers': 'Content-Type',
+				'Access-Control-Max-Age': 86400, // 24 hours
+			});
+			db.getApptInformation(apptid, (err, results) => {
+				if (err) {
+					res.statusCode = 500;
+					res.end(
+						JSON.stringify({ message: 'Internal Server Error' })
+					);
+				} else {
+					res.statusCode = 200;
+					res.end(JSON.stringify({ results }));
+				}
+			});
+		});
+	} else if (path === '/employee/upcomingappt' && method === 'GET') {
+		// Get all users
+		res.writeHead(200, {
+			'Access-Control-Allow-Origin': '*',
+			'Access-Control-Allow-Methods': '*',
+			'Access-Control-Allow-Headers': 'Content-Type',
+			'Access-Control-Max-Age': 86400, // 24 hours
+		});
+
+		db.getUpcomingOfficeAppts((err, results) => {
+			if (err) {
+				res.statusCode = 500;
+				res.end(JSON.stringify({ message: 'Internal Server Error' }));
+			} else {
+				res.statusCode = 200;
+				res.end(JSON.stringify(results));
+			}
+		});
+	} else if (path === '/employee/editappt' && method === 'POST') {
+		let body = '';
+		req.on('data', (chunk) => {
+			body += chunk.toString();
+		});
+		req.on('end', () => {
+			const data = JSON.parse(body);
+			const appt_id = data.values.apptid;
+			const offid = data.values.location;
+			const date = data.values.date;
+			const time = data.values.time;
+			// console.log(offid, date, time, appt_id);
+			res.writeHead(200, {
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Methods': '*',
+				'Access-Control-Allow-Headers': 'Content-Type',
+				'Access-Control-Max-Age': 86400, // 24 hours
+			});
+			db.editappt(offid, date, time, appt_id, (err, results) => {
+				// console.log('results:', results);
+				if (err) {
+					res.statusCode = 500;
+					res.end(
+						JSON.stringify({
+							message: 'Those appointment details are invalid',
+						})
+					);
+				} else {
+					res.statusCode = 200;
+					res.end(
+						JSON.stringify({
+							message: 'Appointment has been updated',
+						})
+					);
+				}
+			});
+		});
 	} else if (path === '/employee/BloodTest' && method === 'POST') {
 		let body = '';
 		req.on('data', (chunk) => {
@@ -505,7 +588,7 @@ const server = http.createServer((req, res) => {
 						// 	res.end();}
 						else {
 							res.statusCode = 200;
-							res.write('Appointment is booked');
+							res.write('Your appointment has been made');
 							res.end();
 						}
 					}

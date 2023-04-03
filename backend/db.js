@@ -124,6 +124,13 @@ function getUpcomingPatientAppts(callback) {
 	);
 }
 
+function getUpcomingOfficeAppts(callback) {
+	connection.query(
+		"SELECT a.appointment_id, CONCAT(p.patient_first_name, ' ', p.patient_last_name) AS name, d.doctor_name, o.city as office_city, a.ref_id, a.appt_date, a.appt_time FROM appoinment a INNER JOIN doctor d ON a.appt_Doctor_id = d.doctor_ID INNER JOIN office o ON a.appt_office_id = o.office_ID INNER JOIN patient p ON a.appt_Patient_id = p.patient_ID WHERE o.office_ID = 1 AND CONCAT(a.appt_date, ' ', a.appt_time) > NOW()",
+		callback
+	);
+}
+
 function getPatientMedicalHistory(callback) {
 	connection.query(
 		'select med_h_smoker,med_h_heart_disease,med_h_diabetes,med_h_current_meds,med_h_pregnant,med_h_sexual_active,med_h_cancer from medical_history where patient_id=21',
@@ -165,6 +172,23 @@ function selfBookingApptNoRef(docid, offid, date, time, callback) {
 function getPatientBillingHistory(callback) {
 	connection.query('SELECT * from invoice where patient_id=21', callback);
 }
+
+function getApptInformation(apptid, callback) {
+	connection.query(
+		'SELECT * from appoinment where appointment_id=?',
+		[apptid],
+		callback
+	);
+}
+
+function editappt(offid, date, time, apptid, callback) {
+	connection.query(
+		'UPDATE appoinment SET appt_office_id = ?, appt_date = ?, appt_time = ? WHERE appointment_id = ?',
+		[offid, date, time, apptid],
+		callback
+	);
+}
+
 function selfBookingApptRef(docid, offid, date, time, refID, callback) {
 	connection.query(
 		'INSERT INTO appoinment (appt_Patient_id, appt_Doctor_id, appt_office_id, appt_date, appt_time, ref_id) VALUES (21, ?, ?, ?, ?, ?)',
@@ -205,4 +229,7 @@ module.exports = {
 	getPatientBillingHistory,
 	getPatientBloodHistory,
 	getPatientMedicalHistory,
+	getUpcomingOfficeAppts,
+	getApptInformation,
+	editappt,
 };
