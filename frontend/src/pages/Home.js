@@ -49,7 +49,7 @@ function Home() {
 						</a>
 					</Button>
 					<Button colorScheme="blue" size="lg">
-						<a href="/about">
+						<a href="/location">
 							Learn more about how to book an appointment!
 						</a>
 					</Button>

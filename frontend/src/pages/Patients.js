@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Card, CardBody, CardHeader, VStack } from '@chakra-ui/react';
+import { Box, Card, CardHeader, VStack } from '@chakra-ui/react';
 import PatientsFooter from '../components/Footer/PatientsFooter';
 import banner from './banner.jpg';
 import PatientDash from '../components/PatientComps/PatientDash';
@@ -10,7 +10,7 @@ export default function Patients() {
 	return (
 		<VStack
 			spacing={8}
-			alignItems="flex-start"
+			alignItems="center"
 			style={{
 				backgroundImage: `url(${banner})`,
 				backgroundSize: 'cover',
@@ -22,25 +22,21 @@ export default function Patients() {
 			</Box>
 
 			<Box mx="auto">
-				<Card width={400}>
-					<CardHeader bg="blue.100" p={1} textAlign="center">
+				<Card textAlign="center">
+					<CardHeader bg="blue.100" p={1}>
 						Upcoming Appointments
 					</CardHeader>
 					<UpcomingAppt />
-					{/* <CardBody>
-						<PatApptTable/>
-					</CardBody> */}
-				</Card>
-			</Box>
-
-			<Box mx="auto">
-				<Card width={400}>
-					<CardBody bg="blue.100" p={1} textAlign="center">
-						User Dashboard
-					</CardBody>
 				</Card>
 			</Box>
 			<Box width="100%">
+				<Card>
+					<CardHeader bg="blue.100" p={1}>
+						User Dashboard
+					</CardHeader>
+				</Card>
+
+				<br />
 				<PatientDash alignItems="left" />
 			</Box>
 		</VStack>

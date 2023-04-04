@@ -22,13 +22,15 @@ export default function ApptHistory() {
 	return (
 		<Table variant="striped" colorScheme="blue">
 			<Tbody>
-				<Th>Date</Th>
-				<Th>Time</Th>
-				<Th>Location</Th>
-				<Th>Doctor</Th>
+				<Tr>
+					<Th>Date</Th>
+					<Th>Time</Th>
+					<Th>Location</Th>
+					<Th>Doctor</Th>
+				</Tr>
 				{myAppointments?.map((appointment) => (
 					<Tr key={appointment.appointment_id}>
-						<Td>{appointment.appt_date}</Td>
+						<Td>{appointment.appt_date.slice(0, 10)}</Td>
 						<Td>{appointment.appt_time}</Td>
 						<Td>{appointment.office_city}</Td>
 						{/* <Td>{appointment.appt_Patient_id}</Td> */}

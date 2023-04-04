@@ -93,7 +93,41 @@ function payInvoice(id, callback) {
 
 //IDK THE SQL QUERY FOR THIS
 function getPatientData(id, callback) {
-	connection.query('select * from ', [id], callback);
+	connection.query(
+		'select med_h_smoker, med_h_heart_disease , med_h_diabetes , med_h_current_meds    , med_h_cancer , med_h_pregnant , med_h_sexual_active from medical_history where patient_id=?',
+		[id],
+		callback
+	);
+}
+
+function UpdatePatientPersonal(
+	address,
+	city,
+	state,
+	zip,
+	first,
+	last,
+	email,
+	phone,
+	insprovider,
+	callback
+) {
+	connection.query(
+		'UPDATE patient SET patient_address = ?,city = ?,state = ?, zip = ?,patient_first_name = ?,patient_last_name = ?,patient_email = ?, patient_phone_num = ?, insurance_provider = ? WHERE patient_ID = 21',
+		[address, city, state, zip, first, last, email, phone, insprovider],
+		callback
+	);
+}
+
+function getPatientPersonal(callback) {
+	connection.query('select * from patient where patient_id=21', callback);
+}
+
+function getPatientApptHistory(callback) {
+	connection.query(
+		"SELECT a.appointment_id, a.appt_Patient_id, d.doctor_name, o.city as office_city, a.ref_id, a.appt_date, a.appt_time FROM appoinment a INNER JOIN doctor d ON a.appt_Doctor_id = d.doctor_ID INNER JOIN office o ON a.appt_office_id = o.office_ID WHERE a.appt_Patient_id = 21 AND CONCAT(a.appt_date, ' ', a.appt_time) < NOW();",
+		callback
+	);
 }
 
 function getPatientApptHistory(callback) {
@@ -105,7 +139,7 @@ function getPatientApptHistory(callback) {
 
 function getDoctorApptHistory(callback) {
 	connection.query(
-		"SELECT * from appoinment WHERE appt_Doctor_id=32 AND CONCAT(appt_date, ' ', appt_time) < NOW()",
+		"SELECT appt_date, appt_time, appt_Patient_id, office.city FROM appoinment INNER JOIN office ON appoinment.appt_office_id = office.office_ID WHERE appt_Doctor_id = 32 AND CONCAT(appt_date, ' ', appt_time) < NOW()",
 		callback
 	);
 }
@@ -140,7 +174,7 @@ function getPatientMedicalHistory(callback) {
 
 function docGetUpcomingAppts(callback) {
 	connection.query(
-		"SELECT * FROM appoinment WHERE appt_doctor_id = 32 AND CONCAT(appt_date, ' ', appt_time) > NOW()",
+		"SELECT a.*, o.city as office_city FROM appoinment a JOIN office o ON a.appt_office_id = o.office_ID WHERE a.appt_doctor_id = 32 AND CONCAT(a.appt_date, ' ', a.appt_time) > NOW()",
 		callback
 	);
 }
@@ -161,7 +195,7 @@ function makeBloodTest(id, type, rb, wb, hg, ht, pt, callback) {
 	);
 }
 
-function selfBookingApptNoRef(docid, offid, date, time, callback) {
+function selfBookingApptNoRef(docid, offid, date, time, refid, callback) {
 	connection.query(
 		'INSERT INTO appoinment (appt_Patient_id, appt_Doctor_id, appt_office_id, appt_date, appt_time, ref_id) VALUES (21, ?, ?, ?, ?, NULL)',
 		[docid, offid, date, time],
@@ -206,6 +240,63 @@ function deleteAppt(id, callback) {
 	);
 }
 
+function createPresc(patid, presname, refill, str, ndc, callback) {
+	connection.query(
+		'INSERT INTO prescription (patient_ID, doctor_ID, pres_name, pres_refills, med_strength, med_NDC) VALUES (?, 32, ?, ?, ?, ?)',
+		[patid, presname, refill, str, ndc],
+		callback
+	);
+	// console.log('callback:', callback);
+}
+
+function getBloodTestDReverything(start, end, callback) {
+	connection.query(
+		'SELECT blood_cbc_test.* FROM blood_cbc_test INNER JOIN general_checkup ON blood_cbc_test.blood_ID = general_checkup.gc_blood_test_ID WHERE general_checkup.checkup_date BETWEEN ? AND ?',
+		[start, end],
+		callback
+	);
+}
+
+function getBloodTestDRnoEnd(start, callback) {
+	connection.query(
+		'SELECT blood_cbc_test.* FROM blood_cbc_test INNER JOIN general_checkup ON blood_cbc_test.blood_ID = general_checkup.gc_blood_test_ID WHERE general_checkup.checkup_date > ?',
+		[start],
+		callback
+	);
+}
+
+function getBloodTestDRnothing(callback) {
+	connection.query(
+		'SELECT blood_cbc_test.* FROM blood_cbc_test INNER JOIN general_checkup ON blood_cbc_test.blood_ID = general_checkup.gc_blood_test_ID',
+		callback
+	);
+}
+
+function getBloodTestDRnoStart(end, callback) {
+	connection.query(
+		'SELECT blood_cbc_test.* FROM blood_cbc_test INNER JOIN general_checkup ON blood_cbc_test.blood_ID = general_checkup.gc_blood_test_ID WHERE general_checkup.checkup_date < ?',
+		[end],
+		callback
+	);
+}
+
+function doctorsetpatientinfo(
+	smoker,
+	heart,
+	diabetes,
+	cancer,
+	pregnant,
+	meds,
+	patid,
+	callback
+) {
+	connection.query(
+		'UPDATE medical_history SET med_h_smoker = ?, med_h_heart_disease = ?, med_h_diabetes = ?, med_h_cancer = ?, med_h_pregnant = ?, med_h_current_meds = ? WHERE patient_ID = ?',
+		[smoker, heart, diabetes, cancer, pregnant, meds, patid],
+		callback
+	);
+}
+
 module.exports = {
 	// getUsers,
 	// getUserByUsername,
@@ -232,4 +323,13 @@ module.exports = {
 	getUpcomingOfficeAppts,
 	getApptInformation,
 	editappt,
+	getPatientPersonal,
+	UpdatePatientPersonal,
+	getPatientData,
+	createPresc,
+	getBloodTestDReverything,
+	getBloodTestDRnoEnd,
+	getBloodTestDRnothing,
+	getBloodTestDRnoStart,
+	doctorsetpatientinfo,
 };

@@ -61,13 +61,13 @@ export default function Login() {
 					password: password,
 				}
 			);
-			// console.log(data);
+			console.log('data:', data);
 			//data.role===1,2,3
-			if (data.username === 'wade123') {
+			if (data.role === 1) {
 				navigate('/patients');
-			} else if (data.username === 'daemployee') {
+			} else if (data.role === 2) {
 				navigate('/employees');
-			} else if (data.username === 'dadoctor') {
+			} else if (data.role === 3) {
 				navigate('/doctor');
 			}
 			localStorage.setItem('token', data.token);

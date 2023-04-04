@@ -22,15 +22,17 @@ export default function ApptHistory() {
 	return (
 		<Table variant="striped" colorScheme="blue">
 			<Tbody>
-				<Th>Current Medications</Th>
-				<Th>Smoker</Th>
-				<Th>Diabete</Th>
-				<Th>Heart Disease</Th>
-				<Th>Pregnant</Th>
-				<Th>Sexually Active</Th>
-				<Th>Cancer</Th>
-				{myAppointments?.map((appointment) => (
-					<Tr key={appointment.med_h_ID}>
+				<Tr>
+					<Th>Current Medications</Th>
+					<Th>Smoker</Th>
+					<Th>Diabete</Th>
+					<Th>Heart Disease</Th>
+					<Th>Pregnant</Th>
+					<Th>Sexually Active</Th>
+					<Th>Cancer</Th>
+				</Tr>
+				{myAppointments?.map((appointment, index) => (
+					<Tr key={index}>
 						<Td>{appointment.med_h_current_meds}</Td>
 						<Td>{appointment.med_h_smoker ? 'Yes' : 'No'}</Td>
 						<Td>{appointment.med_h_diabetes ? 'Yes' : 'No'}</Td>

@@ -6,6 +6,7 @@ const fs = require('fs');
 const users = require('./users');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const { start } = require('repl');
 dotenv.config();
 process.env.TOKEN_SECRET;
 
@@ -48,66 +49,188 @@ const server = http.createServer((req, res) => {
 						})
 					);
 				} else {
+					// console.log('user?:', user);
 					const token = generateAccessToken(user);
 					res.statusCode = 200;
-					res.end(JSON.stringify({ token, username /*, role*/ }));
+					// const roleAuth = user.RowDataPacket.role;
+					res.end(
+						JSON.stringify({ token, username, role: user.role })
+					);
 				}
 			});
 		});
-	}
-
-	// if (path === '/login' && method === 'POST') {
-	// 	res.setHeader('Access-Control-Allow-Origin', '*');
-	// 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-	// 	res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-	// 	let body = '';
-	// 	req.on('data', (chunk) => {
-	// 		body += chunk;
-	// 	});
-	// 	req.on('end', () => {
-	// 		if (body.length === 0) {
-	// 			res.writeHead(400, { 'Content-Type': 'application/json' });
-	// 			res.end(
-	// 				JSON.stringify({
-	// 					success: false,
-	// 					message: 'Empty request body',
-	// 				})
-	// 			);
-	// 		} else {
-	// 			const { username, password } = JSON.parse(body);
-
-	// 			const user = users.find(
-	// 				(u) => u.username === username && u.password === password
-	// 			);
-	// 			if (user) {
-	// 				res.writeHead(200, { 'Content-Type': 'application/json' });
-	// 				if (user.username == 'patient') {
-	// 					res.end(JSON.stringify({ success: true, token: 1 }));
-	// 				} else if (user.username == 'employee') {
-	// 					res.end(JSON.stringify({ success: true, token: 2 }));
-	// 				} else if (user.username == 'doctor') {
-	// 					res.end(JSON.stringify({ success: true, token: 3 }));
-	// 				}
-	// 			} else {
-	// 				res.writeHead(401, { 'Content-Type': 'application/json' });
-	// 				res.end(
-	// 					JSON.stringify({
-	// 						success: false,
-	// 						message: 'Invalid credentials',
-	// 					})
-	// 				);
-	// 			}
-	// 		}
-	// 	});
-	//
-	else if (path === '/doctor/getPatientData' && method === 'POST') {
+	} else if (path === '/doctor/averageblood' && method === 'POST') {
 		let body = '';
 		req.on('data', (chunk) => {
 			body += chunk.toString();
 		});
 		req.on('end', () => {
 			const data = JSON.parse(body);
-			const patientid = data.submitid; // assuming your JSON data has a 'billingid' field
+			// console.log('data:', data);
+			const start = data.start;
+			const end = data.end;
+			// const location = data.location;
+			res.writeHead(200, {
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Methods': '*',
+				'Access-Control-Allow-Headers': 'Content-Type',
+				'Access-Control-Max-Age': 86400, // 24 hours
+			});
+			// console.log('start:', start, '   end:', end);
+			if (start != '' && end != '') {
+				db.getBloodTestDReverything(start, end, (err, results) => {
+					// console.log('Calling Everything');
+					if (err) {
+						res.statusCode = 500;
+						res.end(
+							JSON.stringify({ message: 'Internal Server Error' })
+						);
+					} else {
+						res.statusCode = 200;
+						res.end(JSON.stringify({ results }));
+					}
+				});
+			} else if (end === '' && start != '') {
+				db.getBloodTestDRnoEnd(start, (err, results) => {
+					// console.log('Calling noEnd');
+					if (err) {
+						res.statusCode = 500;
+						res.end(
+							JSON.stringify({ message: 'Internal Server Error' })
+						);
+					} else {
+						res.statusCode = 200;
+						res.end(JSON.stringify({ results }));
+					}
+				});
+			} else if (end === '' && start === '') {
+				db.getBloodTestDRnothing((err, results) => {
+					// console.log('Calling nothing');
+					if (err) {
+						res.statusCode = 500;
+						res.end(
+							JSON.stringify({ message: 'Internal Server Error' })
+						);
+					} else {
+						res.statusCode = 200;
+						res.end(JSON.stringify({ results }));
+					}
+				});
+			} else if (end != '' && start === '') {
+				db.getBloodTestDRnoStart(end, (err, results) => {
+					// console.log('Calling noStart');
+					if (err) {
+						res.statusCode = 500;
+						res.end(
+							JSON.stringify({ message: 'Internal Server Error' })
+						);
+					} else {
+						res.statusCode = 200;
+						res.end(JSON.stringify({ results }));
+					}
+				});
+			}
+		});
+	} else if (path === '/doctor/setpatientinfo' && method === 'POST') {
+		let body = '';
+		req.on('data', (chunk) => {
+			body += chunk.toString();
+		});
+		req.on('end', () => {
+			const data = JSON.parse(body);
+			console.log('data:', data);
+			const smoker = data.values.smoker;
+			const heart = data.values.heart;
+			const diabetes = data.values.diabetes;
+			const cancer = data.values.cancer;
+			const pregnant = data.values.pregnant;
+			const meds = data.values.meds;
+			const patid = data.values.patid;
+
+			// assuming your JSON data has a 'billingid' field
+			res.writeHead(200, {
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Methods': '*',
+				'Access-Control-Allow-Headers': 'Content-Type',
+				'Access-Control-Max-Age': 86400, // 24 hours
+			});
+			db.doctorsetpatientinfo(
+				smoker,
+				heart,
+				diabetes,
+				cancer,
+				pregnant,
+				meds,
+				patid,
+				(err, results) => {
+					if (err) {
+						res.statusCode = 500;
+						res.end(
+							JSON.stringify({ message: 'Internal Server Error' })
+						);
+					} else {
+						res.statusCode = 200;
+						res.end(
+							JSON.stringify({
+								message: 'Changes have been saved',
+							})
+						);
+					}
+				}
+			);
+		});
+	} else if (path === '/doctor/creatpresc' && method === 'POST') {
+		let body = '';
+		req.on('data', (chunk) => {
+			body += chunk.toString();
+		});
+		req.on('end', () => {
+			const data = JSON.parse(body);
+			// console.log('data:', data);
+			const patid = data.patid;
+			const name = data.presname;
+			const ref = data.refill;
+			const str = data.str;
+			const ndc = data.ndc;
+
+			// assuming your JSON data has a 'billingid' field
+			res.writeHead(200, {
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Methods': '*',
+				'Access-Control-Allow-Headers': 'Content-Type',
+				'Access-Control-Max-Age': 86400, // 24 hours
+			});
+			db.createPresc(patid, name, ref, str, ndc, (err, results) => {
+				if (err) {
+					res.statusCode = 500;
+					// console.log('err:', err.sqlMessage);
+					res.write(err.sqlMessage);
+					res.end(
+						JSON.stringify({
+							message: err.sqlMessage,
+						})
+					);
+				} else {
+					// console.log(results);
+					res.statusCode = 200;
+					// console.log('good:');
+					res.end(
+						JSON.stringify({
+							message: 'Prescription has been created',
+						})
+					);
+				}
+			});
+		});
+	} else if (path === '/doctor/getpatientinfo' && method === 'POST') {
+		let body = '';
+		req.on('data', (chunk) => {
+			body += chunk.toString();
+		});
+		req.on('end', () => {
+			const data = JSON.parse(body);
+			// console.log(data);
+			const patientid = data.id; // assuming your JSON data has a 'billingid' field
 			res.writeHead(200, {
 				'Access-Control-Allow-Origin': '*',
 				'Access-Control-Allow-Methods': '*',
@@ -298,6 +421,70 @@ const server = http.createServer((req, res) => {
 				res.end(JSON.stringify(results));
 			}
 		});
+	} else if (path === '/patient/editinfo' && method === 'POST') {
+		let body = '';
+		req.on('data', (chunk) => {
+			body += chunk.toString();
+		});
+		req.on('end', () => {
+			const data = JSON.parse(body);
+			// console.log(data);
+			const city = data.values.city;
+			const state = data.values.state;
+			const zip = data.values.zipcode;
+			const address = data.values.address;
+			const email = data.values.email;
+			const inspolicy = data.values.inspolicy;
+			const insprovider = data.values.insprovider;
+			const phone = data.values.phone;
+			const first = data.values.first;
+			const last = data.values.last;
+			// console.log(
+			// 	city,
+			// 	state,
+			// 	zip,
+			// 	address,
+			// 	email,
+			// 	inspolicy,
+			// 	insprovider,
+			// 	phone,
+			// 	first,
+			// 	last
+			// );
+			res.writeHead(200, {
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Methods': '*',
+				'Access-Control-Allow-Headers': 'Content-Type',
+				'Access-Control-Max-Age': 86400, // 24 hours
+			});
+			db.UpdatePatientPersonal(
+				address,
+				city,
+				state,
+				zip,
+				first,
+				last,
+				email,
+				phone,
+				insprovider,
+				(err, results) => {
+					if (err) {
+						res.statusCode = 500;
+						res.end(
+							JSON.stringify({ message: 'Internal Server Error' })
+						);
+					} else {
+						res.statusCode = 200;
+						console.log(results);
+						res.end(
+							JSON.stringify({
+								message: 'Your information has been saved',
+							})
+						);
+					}
+				}
+			);
+		});
 	} else if (path === '/patient/pay' && method === 'POST') {
 		let body = '';
 		req.on('data', (chunk) => {
@@ -456,6 +643,23 @@ const server = http.createServer((req, res) => {
 				}
 			});
 		});
+	} else if (path === '/patient/getinfo' && method === 'GET') {
+		// Get all users
+		res.writeHead(200, {
+			'Access-Control-Allow-Origin': '*',
+			'Access-Control-Allow-Methods': '*',
+			'Access-Control-Allow-Headers': 'Content-Type',
+			'Access-Control-Max-Age': 86400, // 24 hours
+		});
+		db.getPatientPersonal((err, results) => {
+			if (err) {
+				res.statusCode = 500;
+				res.end(JSON.stringify({ message: 'Internal Server Error' }));
+			} else {
+				res.statusCode = 200;
+				res.end(JSON.stringify(results));
+			}
+		});
 	} else if (path === '/patient/blood' && method === 'GET') {
 		// Get all users
 		res.writeHead(200, {
@@ -502,45 +706,6 @@ const server = http.createServer((req, res) => {
 				}
 			});
 		});
-		// } else if (
-		// 	path === '/patient/bookappt/doctors/datetimes' &&
-		// 	method === 'POST'
-		// ) {
-		// 	// Get all users
-		// 	res.writeHead(200, {
-		// 		'Access-Control-Allow-Origin': '*',
-		// 		'Access-Control-Allow-Methods': '*',
-		// 		'Access-Control-Allow-Headers': 'Content-Type',
-		// 		'Access-Control-Max-Age': 86400, // 24 hours
-		// 	});
-		// 	let body = '';
-		// 	req.on('data', (chunk) => {
-		// 		body += chunk.toString();
-		// 	});
-		// 	req.on('end', () => {
-		// 		const data = JSON.parse(body);
-		// 		const location = data.location;
-		// 		const chosenreason = data.reason; //reason on the right must be in json, ex: {"reason":"general"}
-		// 		const first = data.first;
-		// 		const last = data.last;
-		// 		db.getApptDoctorsTimes(
-		// 			location,
-		// 			chosenreason,
-		// 			first,
-		// 			last,
-		// 			(err, results) => {
-		// 				if (err) {
-		// 					res.statusCode = 500;
-		// 					res.end(
-		// 						JSON.stringify({ message: 'Internal Server Error' })
-		// 					);
-		// 				} else {
-		// 					res.statusCode = 200;
-		// 					res.end(JSON.stringify(results));
-		// 				}
-		// 			}
-		// 		);
-		// 	});
 	} else if (path === '/patient/bookappt/noRef' && method === 'POST') {
 		// Get all users
 		res.writeHead(200, {
@@ -567,7 +732,10 @@ const server = http.createServer((req, res) => {
 			const date = tempdate.slice(0, 10);
 			const time = tempdate.slice(11, 19);
 			const reason = data.data.reason;
-			const refid = data.data.refid;
+			var refid = data.data.refid;
+			if (refid === '') {
+				refid = null;
+			}
 			console.log('Inserting', docid, offid, date, time, refid);
 			if (reason === 'general') {
 				db.selfBookingApptNoRef(
@@ -575,50 +743,42 @@ const server = http.createServer((req, res) => {
 					offid,
 					date,
 					time,
+					refid,
 					(err, results) => {
 						// console.log(err);
 						if (err) {
 							res.statusCode = 500;
 							res.write(err.sqlMessage);
 							res.end();
-						}
-						// if (results.affectedRows === 1) {
-						// 	res.statusCode = 200;
-						// 	res.write('Successfully Booked Appointment');
-						// 	res.end();}
-						else {
+						} else {
 							res.statusCode = 200;
 							res.write('Your appointment has been made');
 							res.end();
 						}
 					}
 				);
+			} else {
+				db.selfBookingApptRef(
+					docid,
+					offid,
+					date,
+					time,
+					refid,
+					(err, results) => {
+						console.log('booking referral');
+						// console.log(err);
+						if (err) {
+							res.statusCode = 500;
+							res.write(err.sqlMessage);
+							res.end();
+						} else {
+							res.statusCode = 200;
+							res.write('Appointment is booked');
+							res.end();
+						}
+					}
+				);
 			}
-			db.selfBookingApptRef(
-				docid,
-				offid,
-				date,
-				time,
-				refid,
-				(err, results) => {
-					console.log('booking referral');
-					// console.log(err);
-					if (err) {
-						res.statusCode = 500;
-						res.write(err.sqlMessage);
-						res.end();
-					}
-					// if (results.affectedRows === 1) {
-					// 	res.statusCode = 200;
-					// 	res.write('Successfully Booked Appointment');
-					// 	res.end();}
-					else {
-						res.statusCode = 200;
-						res.write('Appointment is booked');
-						res.end();
-					}
-				}
-			);
 		});
 	} else if (path === '/patient/appt/delete' && method === 'POST') {
 		res.writeHead(200, {
@@ -645,20 +805,7 @@ const server = http.createServer((req, res) => {
 		res.write('Error');
 		res.end();
 	}
-	// else {
-	// 	// serve the login form HTML page
-	// 	fs.readFile('login.html', (err, data) => {
-	// 		if (err) {
-	// 			res.writeHead(500, { 'Content-Type': 'text/plain' });
-	// 			res.end('Internal server error');
-	// 		} else {
-	// 			res.writeHead(200, { 'Content-Type': 'text/html' });
-	// 			res.end(data);
-	// 		}
-	// 	});
-	// }
 });
-// });
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {

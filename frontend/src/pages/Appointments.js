@@ -101,46 +101,6 @@ export default function Appointments() {
 		}
 	};
 
-	// useEffect(() => {
-	// 	// console.log('CALLING EFFECT');
-	// 	// console.log(selectedDoctor);
-	// 	if (selectedDoctor) {
-	// 		console.log(typeof selectedDoctor[0]);
-	// 		// const names = selectedDoctor.split(' ');
-	// 		const first = 'temp';
-	// 		const last = 'temp';
-	// 		console.log('name:', first, last);
-	// 		axios
-	// 			.post(
-	// 				'http://localhost:3000/patient/bookappt/doctors/datetimes',
-	// 				{
-	// 					location,
-	// 					reason,
-	// 					// first,
-	// 					// last,
-	// 				}
-	// 			)
-	// 			.then((response) => {
-	// 				console.log(response.data);
-	// 				response.data.setHours(
-	// 					parseInt(apptTime.split(':')[0], 10)
-	// 				);
-	// 				response.data.setMinutes(
-	// 					parseInt(apptTime.split(':')[1], 10)
-	// 				);
-	// 				// setApptDateTimes(response.data);
-	// 			})
-	// 			.catch((error) => {
-	// 				console.log('error2');
-	// 				// console.log('GET FILTERED DOCTORS');
-	// 				console.log(error);
-	// 			});
-	// 	} else {
-	// 		setApptDate([]);
-	// 		setApptTime([]);
-	// 	}
-	// }, [selectedDoctor]);
-
 	return (
 		<VStack
 			spacing={10}
@@ -156,7 +116,10 @@ export default function Appointments() {
 			</Box>
 			<Card height="50vh" alignSelf="center">
 				<CardBody>
-					<CardFooter bg="blue.400">{message}</CardFooter>
+					{message && (
+						<CardFooter bg="blue.400">{message}</CardFooter>
+					)}
+					<br />
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<HStack spacing={10}>
 							<VStack spacing={8}>

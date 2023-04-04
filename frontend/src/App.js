@@ -4,7 +4,7 @@ import React from 'react';
 import Footer from './components/Footer/Footer';
 import Home from './pages/Home';
 import Location from './pages/Location';
-import About from './pages/About';
+// import About from './pages/About';
 import Payments from './pages/Payments';
 import { ChakraProvider } from '@chakra-ui/react';
 import Login from './pages/Login';
@@ -18,6 +18,9 @@ import PatientUpdate from './components/PatientComps/PatientUpdate';
 import PatientLookup from './pages/PatientLookup';
 import CreateTest from './components/EmployeeComps/CreateTest';
 import DoctorPatientUpdate from './components/DoctorComps/DoctorPatientUpdate';
+import EditPatientInfo from './components/DoctorComps/EditPatientInfo';
+import AvgBloodTest from './components/DoctorComps/AvgBloodTest';
+import CreatePrescription from './components/DoctorComps/CreatePrescription';
 
 function App() {
 	return (
@@ -30,7 +33,7 @@ function App() {
 						<Route exact path="/payments" element={<Payments />} />
 						<Route exact path="/patients" element={<Patients />} />
 						<Route exact path="/location" element={<Location />} />
-						<Route exact path="/about" element={<About />} />
+						{/* <Route exact path="/about" element={<About />} /> */}
 						<Route
 							exact
 							path="/createtest"
@@ -41,6 +44,11 @@ function App() {
 							exact
 							path="/appointments"
 							element={<Appointments />}
+						/>
+						<Route
+							exact
+							path="/doctor/editpatients"
+							element={<EditPatientInfo />}
 						/>
 						<Route exact path="/doctor" element={<Doctor />} />
 						<Route
@@ -72,6 +80,16 @@ function App() {
 							exact
 							path="/docpatientupdate"
 							element={<DoctorPatientUpdate />}
+						/>
+						<Route
+							exact
+							path="/doctor/datareport"
+							element={<AvgBloodTest />}
+						/>
+						<Route
+							exact
+							path="/doctor/createpresc"
+							element={<CreatePrescription />}
 						/>
 					</Routes>
 				</BrowserRouter>

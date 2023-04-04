@@ -10,7 +10,7 @@ export default function PatientsFooter() {
 		<Navbar bg="primary" variant="dark" expand="sm">
 			<Container>
 				<Navbar.Brand href="/patients" color="blue.300">
-					Welcome Back, NAME HERE
+					Welcome Back to BlueCross!
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
@@ -22,8 +22,9 @@ export default function PatientsFooter() {
 							Book an Appointment
 						</Nav.Link>
 						<Nav.Link href="/patientupdate">
-							Update Your Information
+							Update your information
 						</Nav.Link>
+						<Nav.Link href="/">Logout</Nav.Link>
 					</Nav>
 				</Navbar.Collapse>
 			</Container>

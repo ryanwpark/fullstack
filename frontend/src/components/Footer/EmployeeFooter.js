@@ -22,6 +22,7 @@ export default function EmployeeFooter() {
 						<Nav.Link href="/createtest">
 							Create Blood Test
 						</Nav.Link>
+						<Nav.Link href="/">Logout</Nav.Link>
 					</Nav>
 				</Navbar.Collapse>
 			</Container>

@@ -22,14 +22,16 @@ export default function ApptHistory() {
 	return (
 		<Table variant="striped" colorScheme="blue">
 			<Tbody>
-				<Th>Blood Type</Th>
-				<Th>WBC</Th>
-				<Th>RBC</Th>
-				<Th>Hemoglobin count</Th>
-				<Th>Hematocrit %</Th>
-				<Th>Platelets count</Th>
-				{myAppointments?.map((appointment) => (
-					<Tr key={appointment.Blood_ID}>
+				<Tr>
+					<Th>Blood Type</Th>
+					<Th>WBC</Th>
+					<Th>RBC</Th>
+					<Th>Hemoglobin count</Th>
+					<Th>Hematocrit %</Th>
+					<Th>Platelets count</Th>
+				</Tr>
+				{myAppointments?.map((appointment, index) => (
+					<Tr key={index}>
 						<Td>{appointment.blo_type}</Td>
 						<Td>{appointment.blo_WBC}</Td>
 						<Td>{appointment.blo_RBC}</Td>

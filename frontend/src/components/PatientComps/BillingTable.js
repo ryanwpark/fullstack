@@ -22,16 +22,18 @@ export default function BillingTable() {
 	return (
 		<Table variant="striped" colorScheme="blue">
 			<Tbody>
-				<Th>Date</Th>
-				<Th>Cost $</Th>
+				<Tr>
+					<Th>Date</Th>
+					<Th>Cost $</Th>
 
-				<Th>Payment Method</Th>
-				<Th>Payment status</Th>
-				<Th>Insurance</Th>
-				<Th>Insurance Discount</Th>
+					<Th>Payment Method</Th>
+					<Th>Payment status</Th>
+					<Th>Insurance</Th>
+					<Th>Insurance Discount</Th>
+				</Tr>
 				{MyInvoices?.map((invoice) => (
 					<Tr key={invoice.invoice_id}>
-						<Td>{invoice.date_created}</Td>
+						<Td>{invoice.date_created.slice(0, 10)}</Td>
 						<Td>{invoice.cost}</Td>
 						<Td>{invoice.payment_method}</Td>
 						<Td>{invoice.isPaid ? 'Paid' : 'Not Paid'}</Td>

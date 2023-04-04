@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Table, Tbody, Tr, Td, Button } from '@chakra-ui/react';
+import { Table, Tbody, Tr, Td, Th, Button } from '@chakra-ui/react';
 
 export default function DoctorCurrAppt() {
 	const [myAppointments, setMyAppointments] = useState([]);
@@ -45,15 +45,21 @@ export default function DoctorCurrAppt() {
 	};
 
 	return (
-		<Table variant="striped" colorScheme="blue">
+		<Table variant="striped" bg="blue.100">
 			<Tbody>
+				<Tr>
+					<Th>Date</Th>
+					<Th>Time</Th>
+					<Th>Location</Th>
+					<Th>Patient ID</Th>
+				</Tr>
 				{myAppointments.length > 0 ? (
-					myAppointments.map((appointment) => (
-						<Tr key={appointment.appointment_id}>
-							<Td>{appointment.appt_date}</Td>
-							<Td>{appointment.appt_office_id}</Td>
+					myAppointments.map((appointment, index) => (
+						<Tr key={index}>
+							<Td>{appointment.appt_date.slice(0, 10)}</Td>
+							<Td>{appointment.appt_time}</Td>
+							<Td>{appointment.office_city}</Td>
 							<Td>{appointment.appt_Patient_id}</Td>
-							<Td>{appointment.appt_Doctor_id}</Td>
 							<Td>
 								<Button
 									color="red"
