@@ -31,7 +31,7 @@ export default function ApptHistory() {
 				{myAppointments?.map((appointment) => (
 					<Tr key={appointment.appointment_id}>
 						<Td>{appointment.appt_date.slice(0, 10)}</Td>
-						<Td>{appointment.appt_time}</Td>
+						<Td>{appointment.appt_time.slice(0, 5)}</Td>
 						<Td>{appointment.office_city}</Td>
 						{/* <Td>{appointment.appt_Patient_id}</Td> */}
 						<Td>{appointment.doctor_name}</Td>

@@ -47,17 +47,18 @@ export default function UpcomingAppt() {
 	return (
 		<Table variant="striped" colorScheme="blue">
 			<Tbody>
-				<Tr>
+				<Tr bg="blue.100">
 					<Th>Date</Th>
 					<Th>Time</Th>
 					<Th>Location</Th>
 					<Th>Doctor</Th>
+					<Th color="red">Delete</Th>
 				</Tr>
 				{myAppointments.length > 0 ? (
 					myAppointments.map((appointment) => (
 						<Tr key={appointment.appointment_id}>
 							<Td>{appointment.appt_date.slice(0, 10)}</Td>
-							<Td>{appointment.appt_time}</Td>
+							<Td>{appointment.appt_time.slice(0, 5)}</Td>
 							<Td>{appointment.office_city}</Td>
 							{/* <Td>{appointment.appt_Patient_id}</Td> */}
 							<Td>{appointment.doctor_name}</Td>

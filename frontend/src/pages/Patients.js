@@ -21,7 +21,7 @@ export default function Patients() {
 				<PatientsFooter alignItems="left" />
 			</Box>
 
-			<Box mx="auto">
+			<Box width="95%">
 				<Card textAlign="center">
 					<CardHeader bg="blue.100" p={1}>
 						Upcoming Appointments
@@ -29,15 +29,14 @@ export default function Patients() {
 					<UpcomingAppt />
 				</Card>
 			</Box>
-			<Box width="100%">
+			<Box width="95%">
 				<Card>
-					<CardHeader bg="blue.100" p={1}>
+					<CardHeader bg="blue.100" textAlign="center">
 						User Dashboard
 					</CardHeader>
+					<br />
+					<PatientDash alignItems="left" />
 				</Card>
-
-				<br />
-				<PatientDash alignItems="left" />
 			</Box>
 		</VStack>
 	);

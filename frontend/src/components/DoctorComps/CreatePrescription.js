@@ -52,20 +52,15 @@ export default function CreatePrescription() {
 			<Box width="100%">
 				<DoctorFooter />
 			</Box>
-			{message && (
-				<Card borderColor="blue.100" alignSelf="center" width={300}>
-					<CardBody margin={1}>{message}</CardBody>
-				</Card>
-			)}
 
 			<Card
 				bg="blue.100"
 				alignSelf="center"
-				width={800}
+				width="75%"
 				textAlign="center">
-				<CardHeader>Create a Presription</CardHeader>
+				<CardHeader>Create Presription</CardHeader>
 			</Card>
-			<Card height="31vh" alignSelf="center">
+			<Card height="22vh" alignSelf="center">
 				<CardBody>
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<HStack>
@@ -149,6 +144,16 @@ export default function CreatePrescription() {
 				</CardBody>
 			</Card>
 			<HStack className="myDataReport"></HStack>
+			{message && (
+				<Card
+					bg="blue.100"
+					borderColor="blue.100"
+					alignSelf="center"
+					width={300}
+					textAlign="center">
+					<CardBody margin={1}>{message}</CardBody>
+				</Card>
+			)}
 		</VStack>
 	);
 }

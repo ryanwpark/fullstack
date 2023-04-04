@@ -17,7 +17,7 @@ import AppointmentManager from './components/EmployeeComps/AppointmentManager';
 import PatientUpdate from './components/PatientComps/PatientUpdate';
 import PatientLookup from './pages/PatientLookup';
 import CreateTest from './components/EmployeeComps/CreateTest';
-import DoctorPatientUpdate from './components/DoctorComps/DoctorPatientUpdate';
+import DoctorPatientReport from './components/DoctorComps/DoctorPatientReport';
 import EditPatientInfo from './components/DoctorComps/EditPatientInfo';
 import AvgBloodTest from './components/DoctorComps/AvgBloodTest';
 import CreatePrescription from './components/DoctorComps/CreatePrescription';
@@ -78,8 +78,8 @@ function App() {
 						/>
 						<Route
 							exact
-							path="/docpatientupdate"
-							element={<DoctorPatientUpdate />}
+							path="/doctor/patientreport"
+							element={<DoctorPatientReport />}
 						/>
 						<Route
 							exact

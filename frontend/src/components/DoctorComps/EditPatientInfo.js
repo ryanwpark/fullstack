@@ -17,6 +17,8 @@ import banner from '../../pages/banner.jpg';
 export default function EditPatientInfo() {
 	const [patid, setpatid] = useState('');
 	const [info, setmyinfo] = useState([]);
+	const [good, setgood] = useState('');
+	const [bad, setbad] = useState('');
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log('My entry:', patid);
@@ -27,10 +29,14 @@ export default function EditPatientInfo() {
 			.then((response) => {
 				// console.log(response.data);
 				setmyinfo(response.data);
+				setbad('');
+				setgood('feferfef');
 			})
 			.catch((error) => {
 				console.log(error);
 				setmyinfo([]);
+				setbad('Sorry, there was a problem');
+				setgood('');
 			});
 	};
 
@@ -49,6 +55,11 @@ export default function EditPatientInfo() {
 			<Box width="100%">
 				<DoctorFooter />
 			</Box>
+			{bad && (
+				<Box>
+					<label>{bad}</label>
+				</Box>
+			)}
 			<VStack align="center" justifyContent="center">
 				<VStack>
 					<Card bg="blue.100" width={800}>
@@ -84,12 +95,14 @@ export default function EditPatientInfo() {
 						</Card>
 					</form>
 				</VStack>
-				<FormikForm
-					info={info}
-					setmyinfo={setmyinfo}
-					patid={patid}
-					width={800}
-				/>
+				{good && (
+					<FormikForm
+						info={info}
+						setmyinfo={setmyinfo}
+						patid={patid}
+						width={800}
+					/>
+				)}
 			</VStack>
 		</VStack>
 	);

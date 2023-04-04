@@ -1,5 +1,5 @@
 import React from 'react';
-import { VStack, Box } from '@chakra-ui/react';
+import { VStack, Box, Card } from '@chakra-ui/react';
 import EmployeeFooter from '../components/Footer/EmployeeFooter';
 import EmployeeTables from '../components/EmployeeComps/EmployeeTables';
 import banner from './banner.jpg';
@@ -19,8 +19,10 @@ export default function Employees() {
 			<Box width="100%">
 				<EmployeeFooter />
 			</Box>
-			<Box width="100%">
-				<EmployeeTables />
+			<Box width="95%" alignSelf="center">
+				<Card>
+					<EmployeeTables />
+				</Card>
 			</Box>
 		</VStack>
 	);

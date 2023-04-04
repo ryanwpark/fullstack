@@ -15,14 +15,12 @@ export default function PatientsFooter() {
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav className="me-auto">
-						<Nav.Link href="/payments">
-							Click Here to Pay Bill
-						</Nav.Link>
+						<Nav.Link href="/payments">Pay Bill</Nav.Link>
 						<Nav.Link href="/appointments">
-							Book an Appointment
+							Book Appointment
 						</Nav.Link>
 						<Nav.Link href="/patientupdate">
-							Update your information
+							Update Information
 						</Nav.Link>
 						<Nav.Link href="/">Logout</Nav.Link>
 					</Nav>

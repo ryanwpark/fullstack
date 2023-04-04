@@ -16,8 +16,8 @@ export default function DoctorPrevAppt() {
 						<Nav.Link href="/doctorprevappt">
 							Appointment History
 						</Nav.Link>
-						<Nav.Link href="/docpatientupdate">
-							Appointment Report
+						<Nav.Link href="/doctor/patientreport">
+							Patient Report
 						</Nav.Link>
 						<Nav.Link href="/doctor/editpatients">
 							Manage Patients

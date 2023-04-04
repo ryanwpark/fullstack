@@ -25,24 +25,23 @@ function Location() {
 			spacing={10}>
 			<br></br>
 			<VStack height="60vh">
-				<Card>
-					<CardBody bg="blue.100">
-						<Box align="center">
-							<Card width={270} align="center">
-								<CardBody align="center">
-									<Heading
-										align="center"
-										textAlign="center"
-										textColor="blue.300"
-										size="lg"
-										fontSize="30px">
-										Visit Us Today!
-									</Heading>
-								</CardBody>
-							</Card>
-						</Box>
-						<br />
+				<Card bg="blue.100" padding={1}>
+					<CardBody bg="white">
+						<CardHeader
+							textColor="blue.100"
+							align="center"
+							textAlign="center"
+							// textColor="blue.300"
+							size="lg"
+							fontSize="35px">
+							Visit Us Today!
+						</CardHeader>
+					</CardBody>
+				</Card>
 
+				<br />
+				<Card bg="blue.100" padding={1}>
+					<CardBody>
 						<HStack spacing={10}>
 							<Card width="100%">
 								<CardBody>

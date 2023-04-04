@@ -12,10 +12,6 @@ export default function EmployeeTables() {
 			<TableContainer>
 				<OfficeAppts />
 			</TableContainer>
-			{/* <Tag size="lg" variant="solid" colorScheme="blue">
-				Your Payroll
-			</Tag>
-			<TableContainer><EmployeePay /></TableContainer> */}
 		</VStack>
 	);
 }

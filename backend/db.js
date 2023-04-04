@@ -297,6 +297,22 @@ function doctorsetpatientinfo(
 	);
 }
 
+function doctorpatientreport(
+	smoker,
+	heart,
+	cancer,
+	diabetes,
+	preg,
+	active,
+	callback
+) {
+	connection.query(
+		'SELECT DISTINCT gc_Height, gc_weight, gc.patient_id FROM general_checkup gc JOIN medical_history mh ON gc.patient_id = mh.patient_id WHERE mh.med_h_smoker = ? AND mh.med_h_heart_disease = ? AND mh.med_h_cancer = ? AND mh.med_h_diabetes = ? AND mh.med_h_pregnant = ? AND mh.med_h_sexual_active = ?',
+		[smoker, heart, cancer, diabetes, preg, active],
+		callback
+	);
+}
+
 module.exports = {
 	// getUsers,
 	// getUserByUsername,
@@ -332,4 +348,5 @@ module.exports = {
 	getBloodTestDRnothing,
 	getBloodTestDRnoStart,
 	doctorsetpatientinfo,
+	doctorpatientreport,
 };

@@ -338,13 +338,16 @@ function Payments() {
 						</VStack>
 					</form>
 				</CardBody>
-				<CardFooter textColor="red" alignSelf="center">
-					{errMessage}
-				</CardFooter>
-				<br />
-				<CardFooter textColor="green" alignSelf="center">
-					{message}
-				</CardFooter>
+				{errMessage && (
+					<Card textColor="red" alignSelf="center">
+						<CardFooter>{errMessage}</CardFooter>
+					</Card>
+				)}
+				{message && (
+					<Card textColor="green" alignSelf="center">
+						<CardFooter>{message}</CardFooter>
+					</Card>
+				)}
 			</Card>
 		</VStack>
 	);

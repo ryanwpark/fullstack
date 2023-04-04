@@ -9,6 +9,8 @@ import banner from '../../pages/banner.jpg';
 export default function AppointmentManager() {
 	const [apptid, setapptid] = useState('');
 	const [appt, setappt] = useState([]);
+	const [good, setgood] = useState('');
+	const [bad, setbad] = useState('');
 	const handleSubmit = () => {
 		// console.log('My entry:', apptid);
 		axios
@@ -17,10 +19,14 @@ export default function AppointmentManager() {
 			})
 			.then((response) => {
 				setappt(response.data.results[0]);
+				setbad('');
+				setgood('feferfef');
 			})
 			.catch((error) => {
 				console.log(error);
 				setappt([]);
+				setbad('Sorry, there was a problem');
+				setgood('');
 			});
 	};
 
@@ -37,20 +43,23 @@ export default function AppointmentManager() {
 			<Box width="100%">
 				<EmployeeFooter />
 			</Box>
+			{bad && (
+				<Box>
+					<label>{bad}</label>
+				</Box>
+			)}
 			<VStack spacing={5} align="center" justifyContent="center">
 				<Card bg="blue.100" width={800}>
 					<CardHeader textAlign="center">
-						Manage Appointments by AppointmentID
+						Manage Appointments
 					</CardHeader>
-				</Card>
-				<VStack spacing={10}>
-					<Card bg="blue.100" width={800}>
-						<HStack spacing={39}>
-							<CardHeader>Enter Patient ID</CardHeader>
-							<Card>
+					<VStack spacing={10}>
+						<Card bg="blue.100" width={800}>
+							<HStack spacing={39}>
+								<CardHeader>Enter Patient ID</CardHeader>
 								<Input
 									paddingLeft={50}
-									bg="whiteAlpha.100"
+									bg="white"
 									width={400}
 									type="text"
 									value={apptid}
@@ -59,22 +68,23 @@ export default function AppointmentManager() {
 									}}
 									placeholder="Enter appointment ID"
 								/>
-							</Card>
-						</HStack>
 
-						<Card alignSelf="center" bg="green.100">
-							<Input
-								width={400}
-								// bg="blue.100"
-								type="submit"
-								onClick={handleSubmit}
-							/>
+								<Card alignSelf="center" bg="green.100">
+									<Input
+										width={150}
+										// bg="blue.100"
+										type="submit"
+										onClick={handleSubmit}
+									/>
+								</Card>
+							</HStack>
 						</Card>
-					</Card>
-				</VStack>
+					</VStack>
+				</Card>
 				<br />
-
-				<FormikForm appt={appt} setappt={setappt} apptid={apptid} />
+				{good && (
+					<FormikForm appt={appt} setappt={setappt} apptid={apptid} />
+				)}
 			</VStack>
 		</VStack>
 	);

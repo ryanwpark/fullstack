@@ -222,6 +222,55 @@ const server = http.createServer((req, res) => {
 				}
 			});
 		});
+	} else if (path === '/doctor/patientreport' && method === 'POST') {
+		let body = '';
+		req.on('data', (chunk) => {
+			body += chunk.toString();
+		});
+		req.on('end', () => {
+			const data = JSON.parse(body);
+			// console.log(data);
+			const smoker = data.smoker;
+			const heart = data.heart;
+			const active = data.active;
+			const diabetes = data.diabetes;
+			const cancer = data.cancer;
+			const preg = data.pregnant;
+			// console.log(
+			// 	'going into sql:',
+			// 	smoker,
+			// 	heart,
+			// 	cancer,
+			// 	diabetes,
+			// 	preg,
+			// 	active
+			// );
+			res.writeHead(200, {
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Methods': '*',
+				'Access-Control-Allow-Headers': 'Content-Type',
+				'Access-Control-Max-Age': 86400, // 24 hours
+			});
+			db.doctorpatientreport(
+				smoker,
+				heart,
+				cancer,
+				diabetes,
+				preg,
+				active,
+				(err, results) => {
+					if (err) {
+						res.statusCode = 500;
+						res.end(
+							JSON.stringify({ message: 'Internal Server Error' })
+						);
+					} else {
+						res.statusCode = 200;
+						res.end(JSON.stringify(results));
+					}
+				}
+			);
+		});
 	} else if (path === '/doctor/getpatientinfo' && method === 'POST') {
 		let body = '';
 		req.on('data', (chunk) => {

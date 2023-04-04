@@ -12,6 +12,8 @@ import {
 	Tr,
 	Td,
 	Tbody,
+	CardFooter,
+	CardHeader,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import banner from '../../pages/banner.jpg';
@@ -23,6 +25,8 @@ export default function AvgBloodTest() {
 	const [start, setStart] = useState('');
 	const [end, setEnd] = useState('');
 	const [blood, setBlood] = useState([]);
+	const [good, setgood] = useState('');
+	const [bad, setbad] = useState('');
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		console.log('sending:', start, end);
@@ -34,6 +38,13 @@ export default function AvgBloodTest() {
 			.then((response) => {
 				console.log('response.data.results:', response.data.results);
 				setBlood(response.data.results);
+				setgood('kdkjfdsfjsdk');
+				setbad('');
+			})
+			.catch((error) => {
+				console.log(error);
+				setgood('');
+				setbad('Sorry, there was a problem');
 			});
 	};
 	console.log('test:', blood);
@@ -51,17 +62,24 @@ export default function AvgBloodTest() {
 			<Box width="100%">
 				<DoctorFooter />
 			</Box>
-			<HStack>
-				{' '}
-				<Card height="31vh" alignSelf="center">
-					<CardBody>
-						<form onSubmit={handleSubmit}>
-							<FormLabel>
-								<CardBody>
-									Find the average blood test Results for a
-									specific time period
-								</CardBody>
-							</FormLabel>
+			{bad && (
+				<Card textColor="red" alignSelf="center">
+					<CardFooter>{bad}</CardFooter>
+				</Card>
+			)}
+			<Card
+				bg="blue.100"
+				width="95%"
+				textAlign="center"
+				alignSelf="center">
+				<CardHeader>
+					Find the average blood test results for a time period
+				</CardHeader>
+			</Card>
+			<HStack alignSelf="center" spacing={10}>
+				<form onSubmit={handleSubmit}>
+					<Card height="20vh" alignSelf="center" bg="blue.100">
+						<CardBody bg="white">
 							<HStack>
 								<FormControl>
 									<VStack>
@@ -104,89 +122,96 @@ export default function AvgBloodTest() {
 									type="submit"
 								/>
 							</FormControl>
-						</form>
-					</CardBody>
-				</Card>
-				<Card width={800} alignSelf="center">
-					<Table variant="striped" colorScheme="blue" width={800}>
-						<Tbody>
-							<Tr>
-								<Th>RBC</Th>
-								<Th>WBC</Th>
-								<Th>Hemoglobin</Th>
-								<Th>Hematocrit percent</Th>
-								<Th>Platelets</Th>
-							</Tr>
-							{blood?.map((bloodtest) => (
-								<Tr key={bloodtest.blood_ID}>
-									<Td>{bloodtest.blo_RBC}</Td>
-									<Td>{bloodtest.blo_WBC}</Td>
-									<Td>{bloodtest.blo_hemoglobin}</Td>
-									<Td>{bloodtest.blo_Hematocrit_percent}</Td>
-									<Td>{bloodtest.blo_platelets}</Td>
+						</CardBody>
+					</Card>
+				</form>
+
+				{good && (
+					<Card width={800} alignSelf="center">
+						<Table colorScheme="blue" width={800}>
+							<Tbody>
+								<Tr bgColor="blue.100">
+									<Th>RBC</Th>
+									<Th>WBC</Th>
+									<Th>Hemoglobin</Th>
+									<Th>Hematocrit percent</Th>
+									<Th>Platelets</Th>
 								</Tr>
-							))}
-							<Tr>
-								<Th>Average RBC</Th>
-								<Th>Average WBC</Th>
-								<Th>Average Hemoglobin</Th>
-								<Th>Average Hematocrit percent</Th>
-								<Th>Average Platelets</Th>
-							</Tr>
-							<Tr>
-								<Td>
-									{(
-										blood.reduce(
-											(sum, test) => sum + test.blo_RBC,
-											0
-										) / blood.length
-									).toFixed(2)}{' '}
-									Thousand
-								</Td>
-								<Td>
-									{(
-										blood.reduce(
-											(sum, test) => sum + test.blo_WBC,
-											0
-										) / blood.length
-									).toFixed(2)}{' '}
-									Thousand
-								</Td>
-								<Td>
-									{(
-										blood.reduce(
-											(sum, test) =>
-												sum + test.blo_hemoglobin,
-											0
-										) / blood.length
-									).toFixed(2)}{' '}
-									Thousand
-								</Td>
-								<Td>
-									{(
-										blood.reduce(
-											(sum, test) =>
-												sum +
-												test.blo_Hematocrit_percent,
-											0
-										) / blood.length
-									).toFixed(2)}
-									%
-								</Td>
-								<Td>
-									{(
-										blood.reduce(
-											(sum, test) =>
-												sum + test.blo_platelets,
-											0
-										) / blood.length
-									).toFixed(2)}{' '}
-									Thousand
-								</Td>
-							</Tr>
-						</Tbody>
-					</Table>
-				</Card>
+								{blood?.map((bloodtest) => (
+									<Tr key={bloodtest.blood_ID}>
+										<Td>{bloodtest.blo_RBC}</Td>
+										<Td>{bloodtest.blo_WBC}</Td>
+										<Td>{bloodtest.blo_hemoglobin}</Td>
+										<Td>
+											{bloodtest.blo_Hematocrit_percent}
+										</Td>
+										<Td>{bloodtest.blo_platelets}</Td>
+									</Tr>
+								))}
+								<Tr bgColor="blue.100">
+									<Th>Average RBC</Th>
+									<Th>Average WBC</Th>
+									<Th>Average Hemoglobin</Th>
+									<Th>Average Hematocrit percent</Th>
+									<Th>Average Platelets</Th>
+								</Tr>
+								<Tr>
+									<Td>
+										{(
+											blood.reduce(
+												(sum, test) =>
+													sum + test.blo_RBC,
+												0
+											) / blood.length
+										).toFixed(2)}{' '}
+										Thousand
+									</Td>
+									<Td>
+										{(
+											blood.reduce(
+												(sum, test) =>
+													sum + test.blo_WBC,
+												0
+											) / blood.length
+										).toFixed(2)}{' '}
+										Thousand
+									</Td>
+									<Td>
+										{(
+											blood.reduce(
+												(sum, test) =>
+													sum + test.blo_hemoglobin,
+												0
+											) / blood.length
+										).toFixed(2)}{' '}
+										Thousand
+									</Td>
+									<Td>
+										{(
+											blood.reduce(
+												(sum, test) =>
+													sum +
+													test.blo_Hematocrit_percent,
+												0
+											) / blood.length
+										).toFixed(2)}
+										%
+									</Td>
+									<Td>
+										{(
+											blood.reduce(
+												(sum, test) =>
+													sum + test.blo_platelets,
+												0
+											) / blood.length
+										).toFixed(2)}{' '}
+										Thousand
+									</Td>
+								</Tr>
+							</Tbody>
+						</Table>
+					</Card>
+				)}
 			</HStack>
 		</VStack>
 	);

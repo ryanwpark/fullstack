@@ -45,19 +45,22 @@ export default function OfficeAppts() {
 	};
 
 	return (
-		<Table variant="striped" colorScheme="blue">
+		<Table colorScheme="blue" variant="striped">
 			<Tbody>
-				<Th>Appointment ID</Th>
-				<Th>Date</Th>
-				<Th>Time</Th>
-				<Th>Patient</Th>
-				<Th>Doctor</Th>
+				<Tr bg="blue.100">
+					<Th>Appointment ID</Th>
+					<Th>Date</Th>
+					<Th>Time</Th>
+					<Th>Patient</Th>
+					<Th>Doctor</Th>
+					<Th color="red">Delete</Th>
+				</Tr>
 				{myAppointments.length > 0 ? (
 					myAppointments.map((appointment) => (
 						<Tr key={appointment.appointment_id}>
 							<Td>{appointment.appointment_id}</Td>
-							<Td>{appointment.appt_date}</Td>
-							<Td>{appointment.appt_time}</Td>
+							<Td>{appointment.appt_date.slice(0, 10)}</Td>
+							<Td>{appointment.appt_time.slice(0, 5)}</Td>
 							<Td>{appointment.name}</Td>
 							<Td>{appointment.doctor_name}</Td>
 							<Td>
