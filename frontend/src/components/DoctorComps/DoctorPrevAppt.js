@@ -19,7 +19,7 @@ export default function DoctorPrevAppt() {
 
 	useEffect(() => {
 		axios
-			.get('http://localhost:3000/doctor/appthistory')
+			.get('http://localhost:8000/doctor/appthistory')
 			.then((response) => {
 				console.log('MY RESPONSE');
 				console.log(response);

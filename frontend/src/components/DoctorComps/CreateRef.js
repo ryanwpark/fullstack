@@ -19,7 +19,7 @@ export default function CreateRef() {
 	const onSubmit = (data) => {
 		console.log(data);
 		axios
-			.post('http://localhost:3000/doctor/makeref', data, {
+			.post('http://localhost:8000/doctor/makeref', data, {
 				headers: { 'Content-Type': 'application/json' },
 			})
 			.then((response) => {

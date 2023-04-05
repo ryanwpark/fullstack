@@ -16,11 +16,12 @@ import DoctorPrevAppt from './components/DoctorComps/DoctorPrevAppt';
 import AppointmentManager from './components/EmployeeComps/AppointmentManager';
 import PatientUpdate from './components/PatientComps/PatientUpdate';
 import PatientLookup from './pages/PatientLookup';
-import CreateTest from './components/EmployeeComps/CreateTest';
+// import CreateTest from './components/EmployeeComps/CreateTest';
 import DoctorPatientReport from './components/DoctorComps/DoctorPatientReport';
 import EditPatientInfo from './components/DoctorComps/EditPatientInfo';
 import AvgBloodTest from './components/DoctorComps/AvgBloodTest';
 import CreatePrescription from './components/DoctorComps/CreatePrescription';
+// import ProtectedRoute from './ProtectedRoute';
 
 function App() {
 	return (
@@ -34,11 +35,11 @@ function App() {
 						<Route exact path="/patients" element={<Patients />} />
 						<Route exact path="/location" element={<Location />} />
 						{/* <Route exact path="/about" element={<About />} /> */}
-						<Route
+						{/* <Route
 							exact
 							path="/createtest"
 							element={<CreateTest />}
-						/>
+						/> */}
 						<Route exact path="/login" element={<Login />} />
 						<Route
 							exact
@@ -51,11 +52,13 @@ function App() {
 							element={<EditPatientInfo />}
 						/>
 						<Route exact path="/doctor" element={<Doctor />} />
+						{/* <ProtectedRoute> */}
 						<Route
 							exact
 							path="/employees"
 							element={<Employees />}
 						/>
+						{/* </ProtectedRoute> */}
 						<Route
 							exact
 							path="/doctorprevappt"

@@ -19,9 +19,6 @@ export default function EmployeeFooter() {
 						<Nav.Link href="/patientlookup">
 							Patient Look-Up
 						</Nav.Link>
-						<Nav.Link href="/createtest">
-							Create Blood Test
-						</Nav.Link>
 						<Nav.Link href="/">Logout</Nav.Link>
 					</Nav>
 				</Navbar.Collapse>

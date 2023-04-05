@@ -7,7 +7,7 @@ export default function BillingTable() {
 
 	useEffect(() => {
 		axios
-			.get('http://localhost:3000/patient/billing/history')
+			.get('http://localhost:8000/patient/billing/history')
 			.then((response) => {
 				console.log('MY RESPONSE');
 				console.log(response);

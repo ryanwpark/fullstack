@@ -6,7 +6,7 @@ export default function PatientDiagnosis() {
 	const [ref, setref] = useState([]);
 	useEffect(() => {
 		axios
-			.get('http://localhost:3000/patient/diagnosis')
+			.get('http://localhost:8000/patient/diagnosis')
 			.then((response) => {
 				console.log('My response:', response.data);
 				setref(response.data);

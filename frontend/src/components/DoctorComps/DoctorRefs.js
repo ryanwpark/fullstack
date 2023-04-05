@@ -6,7 +6,7 @@ export default function DoctorRefs() {
 	const [ref, setref] = useState([]);
 	useEffect(() => {
 		axios
-			.get('http://localhost:3000/doctor/getrefs')
+			.get('http://localhost:8000/doctor/getrefs')
 			.then((response) => {
 				console.log('My response:', response.data);
 				setref(response.data);
@@ -20,7 +20,7 @@ export default function DoctorRefs() {
 		console.log('deleting:', ref_ID);
 		axios
 			.post(
-				'http://localhost:3000/doctor/cancelref',
+				'http://localhost:8000/doctor/cancelref',
 				{ refid: ref_ID },
 				{
 					headers: { 'Content-Type': 'application/json' },

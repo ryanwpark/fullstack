@@ -31,7 +31,7 @@ export default function AvgBloodTest() {
 		event.preventDefault();
 		console.log('sending:', start, end);
 		axios
-			.post('http://localhost:3000/doctor/averageblood', {
+			.post('http://localhost:8000/doctor/averageblood', {
 				start: start,
 				end: end,
 			})
@@ -67,18 +67,13 @@ export default function AvgBloodTest() {
 					<CardFooter>{bad}</CardFooter>
 				</Card>
 			)}
-			<Card
-				bg="blue.100"
-				width="95%"
-				textAlign="center"
-				alignSelf="center">
-				<CardHeader>
-					Find the average blood test results for a time period
-				</CardHeader>
-			</Card>
 			<HStack alignSelf="center" spacing={10}>
 				<form onSubmit={handleSubmit}>
 					<Card height="20vh" alignSelf="center" bg="blue.100">
+						<CardHeader>
+							Find the average blood test results for a time
+							period
+						</CardHeader>
 						<CardBody bg="white">
 							<HStack>
 								<FormControl>

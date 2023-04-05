@@ -14,7 +14,7 @@ export default function AppointmentManager() {
 	const handleSubmit = () => {
 		// console.log('My entry:', apptid);
 		axios
-			.post('http://localhost:3000/employee/getappt', {
+			.post('http://localhost:8000/employee/getappt', {
 				apptid,
 			})
 			.then((response) => {

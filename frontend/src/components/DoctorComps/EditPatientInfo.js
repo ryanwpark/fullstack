@@ -23,7 +23,7 @@ export default function EditPatientInfo() {
 		e.preventDefault();
 		console.log('My entry:', patid);
 		axios
-			.post('http://localhost:3000/doctor/getpatientinfo', {
+			.post('http://localhost:8000/doctor/getpatientinfo', {
 				id: patid,
 			})
 			.then((response) => {

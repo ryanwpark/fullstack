@@ -21,7 +21,7 @@ export default function DoctorCurrAppt() {
 		console.log(appt_id);
 		axios
 			.post(
-				'http://localhost:3000/cancelappt',
+				'http://localhost:8000/cancelappt',
 				{ appt_id: appt_id },
 				{
 					headers: { 'Content-Type': 'application/json' },

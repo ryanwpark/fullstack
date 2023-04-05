@@ -2,6 +2,7 @@
   "name": "medical-web-app",
   "version": "0.1.0",
   "private": true,
+  "proxy":"http://localhost:8000",
   "main": "index.js",
   "homepage": "https://medicalwebapp.azurewebsites.net/",
   "dependencies": {

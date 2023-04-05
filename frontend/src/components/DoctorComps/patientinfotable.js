@@ -292,7 +292,7 @@ const FormikForm = withFormik({
 	enableReinitialize: true,
 	handleSubmit: (values, { props, ...actions }) => {
 		axios
-			.post('http://localhost:3000/doctor/setpatientinfo', { values })
+			.post('http://localhost:8000/doctor/setpatientinfo', { values })
 			.then((response) => {
 				// console.log(response);
 				alert(response.data.message);

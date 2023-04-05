@@ -13,7 +13,7 @@ export default function PatientUpdate() {
 	useEffect(() => {
 		if (!isLoaded) {
 			axios
-				.get('http://localhost:3000/patient/getinfo')
+				.get('http://localhost:8000/patient/getinfo')
 				.then((response) => {
 					setmyinfo(response.data[0]);
 					setIsLoaded(true);

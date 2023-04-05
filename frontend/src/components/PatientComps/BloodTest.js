@@ -7,7 +7,7 @@ export default function ApptHistory() {
 
 	useEffect(() => {
 		axios
-			.get('http://localhost:3000/patient/blood/history')
+			.get('http://localhost:8000/patient/blood/history')
 			.then((response) => {
 				console.log('MY RESPONSE');
 				console.log(response);

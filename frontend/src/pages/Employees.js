@@ -3,6 +3,7 @@ import { VStack, Box, Card } from '@chakra-ui/react';
 import EmployeeFooter from '../components/Footer/EmployeeFooter';
 import EmployeeTables from '../components/EmployeeComps/EmployeeTables';
 import banner from './banner.jpg';
+import CreateTest from '../components/EmployeeComps/CreateTest';
 
 export default function Employees() {
 	return (
@@ -24,8 +25,10 @@ export default function Employees() {
 					<EmployeeTables />
 				</Card>
 			</Box>
+
+			<Box alignSelf="center">
+				<CreateTest />
+			</Box>
 		</VStack>
 	);
 }
-
-<h3 class="ui block header">Block Header</h3>;

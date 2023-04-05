@@ -7,7 +7,7 @@ export default function OfficeAppts() {
 
 	useEffect(() => {
 		axios
-			.get('http://localhost:3000/employee/upcomingappt')
+			.get('http://localhost:8000/employee/upcomingappt')
 			.then((response) => {
 				console.log('My response:', response.data);
 				setMyAppointments(response.data);
@@ -21,7 +21,7 @@ export default function OfficeAppts() {
 		console.log(appt_id);
 		axios
 			.post(
-				'http://localhost:3000/cancelappt',
+				'http://localhost:8000/cancelappt',
 				{ appt_id: appt_id },
 				{
 					headers: { 'Content-Type': 'application/json' },

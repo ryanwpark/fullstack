@@ -22,7 +22,7 @@ export default function CreatePrescription() {
 	const onSubmit = (data) => {
 		// console.log(data);
 		axios
-			.post('http://localhost:3000/doctor/creatpresc', data, {
+			.post('http://localhost:8000/doctor/creatpresc', data, {
 				headers: { 'Content-Type': 'application/json' },
 			})
 			.then((response) => {

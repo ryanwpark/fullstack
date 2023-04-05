@@ -97,7 +97,7 @@ function Location() {
 								<CardBody>
 									<CardHeader>
 										<Heading textColor="blue.300" size="md">
-											Houston Office
+											Austin Office
 										</Heading>
 									</CardHeader>
 
@@ -123,7 +123,8 @@ function Location() {
 												Office Address
 											</Heading>
 											<Text pt="2" fontSize="sm">
-												301 Milam St, Houston, TX 77002
+												123 Guadalupe St, Austin, TX
+												71122
 											</Text>
 										</Box>
 										<Box>
@@ -134,9 +135,9 @@ function Location() {
 												Contact Information
 											</Heading>
 											<Text pt="2" fontSize="sm">
-												houstonbloodclinic@bloodclinic.com{' '}
+												austinbloodclinic@bloodclinic.com{' '}
 												<br></br>
-												281 - 123 - 4567
+												612 - 123 - 4567
 											</Text>
 										</Box>
 									</Stack>
@@ -146,7 +147,7 @@ function Location() {
 								<CardBody>
 									<CardHeader>
 										<Heading textColor="blue.300" size="md">
-											Houston Office
+											Dallas Office
 										</Heading>
 									</CardHeader>
 
@@ -172,7 +173,8 @@ function Location() {
 												Office Address
 											</Heading>
 											<Text pt="2" fontSize="sm">
-												301 Milam St, Houston, TX 77002
+												987 Alabama St, Dallas, TX
+												77201,
 											</Text>
 										</Box>
 										<Box>
@@ -183,9 +185,9 @@ function Location() {
 												Contact Information
 											</Heading>
 											<Text pt="2" fontSize="sm">
-												houstonbloodclinic@bloodclinic.com{' '}
+												dallasbloodclinic@bloodclinic.com{' '}
 												<br></br>
-												281 - 123 - 4567
+												621 - 123 - 9012
 											</Text>
 										</Box>
 									</Stack>

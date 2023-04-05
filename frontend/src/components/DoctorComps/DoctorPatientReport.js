@@ -30,7 +30,7 @@ export default function DoctorPatientReport() {
 	const [errMessage, setErrMessage] = useState('');
 	const onSubmit = (data) => {
 		axios
-			.post('http://localhost:3000/doctor/patientreport', data, {
+			.post('http://localhost:8000/doctor/patientreport', data, {
 				headers: { 'Content-Type': 'application/json' },
 			})
 			.then((response) => {

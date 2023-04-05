@@ -31,7 +31,7 @@ function Payments() {
 		console.log('DATA:');
 		console.log(data);
 		axios
-			.post('http://localhost:3000/patient/pay', data, {
+			.post('http://localhost:8000/patient/pay', data, {
 				headers: { 'Content-Type': 'application/json' },
 			})
 			.then((response) => {

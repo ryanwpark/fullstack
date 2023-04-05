@@ -38,7 +38,7 @@ export default function Appointments() {
 		// console.log('MyLocation&Reason', location, reason);
 		if (location && reason) {
 			axios
-				.post('http://localhost:3000/patient/bookappt/getdoctors', {
+				.post('http://localhost:8000/patient/bookappt/getdoctors', {
 					location,
 					reason,
 				})
@@ -77,7 +77,7 @@ export default function Appointments() {
 			data.DatePicker = temptemp;
 			console.log('Sending:', data);
 			axios
-				.post('http://localhost:3000/patient/bookappt/noRef', {
+				.post('http://localhost:8000/patient/bookappt/noRef', {
 					data,
 				})
 				.then((response) => {

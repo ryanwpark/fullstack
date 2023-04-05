@@ -10,9 +10,7 @@ import {
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import banner from '../../pages/banner.jpg';
 import 'react-datepicker/dist/react-datepicker.css';
-import EmployeeFooter from '../Footer/EmployeeFooter';
 import axios from 'axios';
 
 export default function CreateTest() {
@@ -22,7 +20,7 @@ export default function CreateTest() {
 	const onSubmit = (data) => {
 		console.log(data);
 		axios
-			.post('http://localhost:3000/employee/BloodTest', data, {
+			.post('http://localhost:8000/employee/BloodTest', data, {
 				headers: { 'Content-Type': 'application/json' },
 			})
 			.then((response) => {
@@ -38,158 +36,110 @@ export default function CreateTest() {
 	};
 
 	return (
-		<VStack
-			spacing={10}
-			alignItems="flex-start"
-			style={{
-				backgroundImage: `url(${banner})`,
-				backgroundSize: 'cover',
-				backgroundPosition: 'center',
-			}}
-			height="90vh">
-			<Box width="100%">
-				<EmployeeFooter />
-			</Box>
+		<Box alignSelf="center">
 			{message && (
-				<Card
-					textAlign="center"
-					width={300}
-					alignSelf="center"
-					bg="blue.100">
-					{message}
-				</Card>
-			)}
-			<Box alignSelf="center">
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<Card height="50vh" align="center">
-						<CardBody>
-							<FormLabel textAlign="center">
-								Enter Blood Test Results
-							</FormLabel>
-
-							<HStack spacing={10}>
-								<VStack spacing={8}>
-									<FormControl>
-										<VStack>
-											<Box alignSelf="center">
-												<FormLabel>
-													Patient ID
-												</FormLabel>
-												<Input
-													width={400}
-													type="text"
-													placeholder="Enter Patient's ID"
-													className="patname"
-													focusBorderColor="blue.300"
-													{...register('patid')}
-												/>
-											</Box>
-											<Card>
-												<CardBody>
-													<HStack>
-														<VStack>
-															<FormLabel>
-																Blood Type
-															</FormLabel>
-															<Input
-																width={400}
-																type="text"
-																placeholder="Enter WBC"
-																className="type"
-																focusBorderColor="blue.300"
-																{...register(
-																	'type'
-																)}
-															/>
-															<FormLabel>
-																WBC (in
-																thousands)
-															</FormLabel>
-															<Input
-																width={400}
-																type="number"
-																placeholder="Enter WBC"
-																className="wbc"
-																focusBorderColor="blue.300"
-																{...register(
-																	'wbc'
-																)}
-															/>
-															<FormLabel>
-																RBC (in
-																thousands)
-															</FormLabel>
-															<Input
-																width={400}
-																type="number"
-																placeholder="Enter RBC"
-																className="rbc"
-																focusBorderColor="blue.300"
-																{...register(
-																	'rbc'
-																)}
-															/>
-														</VStack>
-														<VStack>
-															<FormLabel>
-																Hemoglobin Count
-															</FormLabel>
-															<Input
-																width={400}
-																type="number"
-																placeholder="Enter Hemoglobin Count in Thousands"
-																className="hemo"
-																focusBorderColor="blue.300"
-																{...register(
-																	'hemoglo'
-																)}
-															/>
-															<FormLabel>
-																Hematocrit %
-															</FormLabel>
-															<Input
-																width={400}
-																type="number"
-																placeholder="Enter Hematocrit Percent"
-																className="hema"
-																focusBorderColor="blue.300"
-																{...register(
-																	'hemato'
-																)}
-															/>
-															<FormLabel>
-																Platelets
-															</FormLabel>
-															<Input
-																width={400}
-																type="number"
-																placeholder="Enter Platelets Count in Thousands"
-																className="patname"
-																focusBorderColor="blue.300"
-																{...register(
-																	'plate'
-																)}
-															/>
-														</VStack>
-													</HStack>
-												</CardBody>
-											</Card>
-										</VStack>
-									</FormControl>
-								</VStack>
-							</HStack>
-							<br />
-							<FormControl align="center">
-								<Input
-									width={400}
-									bg="blue.100"
-									type="submit"
-								/>
-							</FormControl>
-						</CardBody>
+				<Box align="center">
+					<Card
+						textAlign="center"
+						width={300}
+						alignSelf="center"
+						bg="blue.100">
+						{message}
 					</Card>
-				</form>
-			</Box>
+				</Box>
+			)}
+			<br />
+			<form onSubmit={handleSubmit(onSubmit)}>
+				<Card height="30vh" align="center">
+					<CardBody>
+						<FormLabel textAlign="center">
+							Enter Blood Test Results
+						</FormLabel>
+
+						<HStack spacing={10}>
+							<FormControl>
+								<VStack alignContent="center" spacing={5}>
+									<HStack>
+										<FormLabel textAlign="center">
+											Patient ID
+										</FormLabel>
+										<Input
+											width={200}
+											type="text"
+											placeholder="Patient's ID"
+											className="patname"
+											focusBorderColor="blue.300"
+											{...register('patid')}
+										/>
+										<FormLabel>Blood Type</FormLabel>
+										<Input
+											width={150}
+											type="text"
+											placeholder="Blood Type"
+											className="type"
+											focusBorderColor="blue.300"
+											{...register('type')}
+										/>
+										<FormLabel>Hematocrit %</FormLabel>
+										<Input
+											width={150}
+											type="number"
+											placeholder="Enter %"
+											className="hema"
+											focusBorderColor="blue.300"
+											{...register('hemato')}
+										/>
+									</HStack>
+									<HStack>
+										<FormLabel>WBC</FormLabel>
+										<Input
+											width={150}
+											type="number"
+											placeholder="in Thousands"
+											className="wbc"
+											focusBorderColor="blue.300"
+											{...register('wbc')}
+										/>
+										<FormLabel>RBC</FormLabel>
+										<Input
+											width={150}
+											type="number"
+											placeholder="in Thousands"
+											className="rbc"
+											focusBorderColor="blue.300"
+											{...register('rbc')}
+										/>
+										<FormLabel>Hemoglobin Count</FormLabel>
+										<Input
+											width={150}
+											type="number"
+											placeholder="in Thousands"
+											className="hemo"
+											focusBorderColor="blue.300"
+											{...register('hemoglo')}
+										/>
+
+										<FormLabel>Platelets</FormLabel>
+										<Input
+											width={150}
+											type="number"
+											placeholder="in Thousands"
+											className="patname"
+											focusBorderColor="blue.300"
+											{...register('plate')}
+										/>
+									</HStack>
+								</VStack>
+							</FormControl>
+						</HStack>
+						<br />
+						<FormControl align="center">
+							<Input width={300} bg="blue.100" type="submit" />
+						</FormControl>
+					</CardBody>
+				</Card>
+			</form>
+			<br />
 			{errmessage && (
 				<Card
 					textAlign="center"
@@ -199,6 +149,6 @@ export default function CreateTest() {
 					{errmessage}
 				</Card>
 			)}
-		</VStack>
+		</Box>
 	);
 }
