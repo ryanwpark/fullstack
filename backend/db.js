@@ -187,10 +187,10 @@ function cancelAppt(apptID, callback) {
 	);
 }
 
-function makeBloodTest(id, type, rb, wb, hg, ht, pt, callback) {
+function makeBloodTest(type, rb, wb, hg, ht, pt, id, callback) {
 	connection.query(
-		'INSERT INTO blood_cbc_test(blood_ID,blo_type,blo_RBC,blo_WBC,blo_hemoglobin,blo_Hematocrit_percent,blo_platelets) VALUES(?,?,?,?,?,?,?)',
-		[id, type, rb, wb, hg, ht, pt],
+		'INSERT INTO blood_cbc_test (blo_type,blo_RBC,blo_WBC,blo_hemoglobin,blo_Hematocrit_percent,blo_platelets,patient_ID) VALUES(?,?,?,?,?,?,?)',
+		[type, rb, wb, hg, ht, pt, id],
 		callback
 	);
 }
@@ -313,6 +313,32 @@ function doctorpatientreport(
 	);
 }
 
+function getDoctorRefs(callback) {
+	connection.query(
+		'SELECT referrals.*, doctor.doctor_name AS speacialist_referred FROM referrals INNER JOIN doctor ON referrals.speacialist_referred = doctor.doctor_ID WHERE referring_doc = 32',
+		callback
+	);
+}
+
+function doctormakeref(ref, spec, patid, callback) {
+	connection.query(
+		'INSERT INTO referrals (speacialist_referred, referring_doc, doctor_specialization, patient_id) VALUES (?, 32, ?, ?)',
+		[ref, spec, patid],
+		callback
+	);
+}
+
+function cancelRef(refid, callback) {
+	connection.query('DELETE FROM referrals WHERE ref_ID=?', [refid], callback);
+}
+
+function patientdiagnosis(callback) {
+	connection.query(
+		'SELECT d.diag_desc, dr.doctor_name FROM diagnosis d INNER JOIN doctor dr ON d.doctor_ID = dr.doctor_ID WHERE d.patient_ID = 21',
+		callback
+	);
+}
+
 module.exports = {
 	// getUsers,
 	// getUserByUsername,
@@ -349,4 +375,8 @@ module.exports = {
 	getBloodTestDRnoStart,
 	doctorsetpatientinfo,
 	doctorpatientreport,
+	getDoctorRefs,
+	doctormakeref,
+	cancelRef,
+	patientdiagnosis,
 };

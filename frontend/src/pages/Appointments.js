@@ -114,11 +114,13 @@ export default function Appointments() {
 			<Box width="100%">
 				<PatientsFooter />
 			</Box>
+			{message && (
+				<Card alignSelf="center" width={400}>
+					<CardFooter bg="blue.100">{message}</CardFooter>
+				</Card>
+			)}
 			<Card height="50vh" alignSelf="center">
 				<CardBody>
-					{message && (
-						<CardFooter bg="blue.400">{message}</CardFooter>
-					)}
 					<br />
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<HStack spacing={10}>
@@ -290,6 +292,7 @@ export default function Appointments() {
 							</FormControl>
 						</HStack>
 						<br /> <br />
+						<br />
 						<FormControl align="center">
 							<Input width={400} bg="blue.100" type="submit" />
 						</FormControl>

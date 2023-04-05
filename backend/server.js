@@ -298,6 +298,86 @@ const server = http.createServer((req, res) => {
 				}
 			});
 		});
+	} else if (path === '/doctor/cancelref' && method === 'POST') {
+		let body = '';
+		req.on('data', (chunk) => {
+			body += chunk.toString();
+		});
+		req.on('end', () => {
+			const data = JSON.parse(body);
+
+			console.log('data:', data);
+			const refid = data.refid; // assuming your JSON data has a 'billingid' field
+			res.writeHead(200, {
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Methods': '*',
+				'Access-Control-Allow-Headers': 'Content-Type',
+				'Access-Control-Max-Age': 86400, // 24 hours
+			});
+			db.cancelRef(refid, (err, results) => {
+				if (err) {
+					res.statusCode = 500;
+					res.end(
+						JSON.stringify({ message: 'Internal Server Error' })
+					);
+				} else {
+					res.statusCode = 200;
+					res.end(
+						JSON.stringify({
+							message: 'Referral has been canceled',
+						})
+					);
+				}
+			});
+		});
+	} else if (path === '/doctor/makeref' && method === 'POST') {
+		let body = '';
+		req.on('data', (chunk) => {
+			body += chunk.toString();
+		});
+		req.on('end', () => {
+			const data = JSON.parse(body);
+			// console.log('data:', data);
+			const patid = data.patid;
+			const ref = data.ref;
+			const spec = data.spec;
+			res.writeHead(200, {
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Methods': '*',
+				'Access-Control-Allow-Headers': 'Content-Type',
+				'Access-Control-Max-Age': 86400, // 24 hours
+			});
+			db.doctormakeref(ref, spec, patid, (err, results) => {
+				if (err) {
+					res.statusCode = 500;
+					res.end(
+						JSON.stringify({ message: 'Internal Server Error' })
+					);
+				} else {
+					res.statusCode = 200;
+					res.end(
+						JSON.stringify({ message: 'Referral has been made' })
+					);
+				}
+			});
+		});
+	} else if (path === '/doctor/getrefs' && method === 'GET') {
+		// Get all users
+		res.writeHead(200, {
+			'Access-Control-Allow-Origin': '*',
+			'Access-Control-Allow-Methods': '*',
+			'Access-Control-Allow-Headers': 'Content-Type',
+			'Access-Control-Max-Age': 86400, // 24 hours
+		});
+		db.getDoctorRefs((err, results) => {
+			if (err) {
+				res.statusCode = 500;
+				res.end(JSON.stringify({ message: 'Internal Server Error' }));
+			} else {
+				res.statusCode = 200;
+				res.end(JSON.stringify(results));
+			}
+		});
 	} else if (path === '/doctor/appthistory' && method === 'GET') {
 		// Get all users
 		res.writeHead(200, {
@@ -421,7 +501,15 @@ const server = http.createServer((req, res) => {
 		});
 		req.on('end', () => {
 			const data = JSON.parse(body);
-			// const billingid = data.Invoice_id; // assuming your JSON data has a 'billingid' field
+			console.log('data:', data);
+			const patid = data.patid;
+			const type = data.type;
+			const wbc = data.wbc;
+			const rbc = data.rbc;
+			const hemog = data.hemoglo;
+			const hemato = data.hemato;
+			const plate = data.plate;
+
 			res.writeHead(200, {
 				'Access-Control-Allow-Origin': '*',
 				'Access-Control-Allow-Methods': '*',
@@ -429,19 +517,18 @@ const server = http.createServer((req, res) => {
 				'Access-Control-Max-Age': 86400, // 24 hours
 			});
 			db.makeBloodTest(
-				data.blood_id,
-				data.blo_type,
-				data.blo_RBC,
-				data.blo_WBC,
-				data.blo_hemoglobin,
-				data.blo_Hematocrit_percent,
-				data.blo_platelets,
+				type,
+				rbc,
+				wbc,
+				hemog,
+				hemato,
+				plate,
+				patid,
 				(err, results) => {
 					if (err) {
 						res.statusCode = 500;
-						res.end(
-							JSON.stringify({ message: 'Internal Server Error' })
-						);
+						console.log(err);
+						res.end(JSON.stringify({ message: err.sqlMessage }));
 					} else {
 						res.statusCode = 200;
 						res.end(
@@ -591,6 +678,24 @@ const server = http.createServer((req, res) => {
 					);
 				}
 			});
+		});
+	} else if (path === '/patient/diagnosis' && method === 'GET') {
+		// Get all users
+		res.writeHead(200, {
+			'Access-Control-Allow-Origin': '*',
+			'Access-Control-Allow-Methods': '*',
+			'Access-Control-Allow-Headers': 'Content-Type',
+			'Access-Control-Max-Age': 86400, // 24 hours
+		});
+
+		db.patientdiagnosis((err, results) => {
+			if (err) {
+				res.statusCode = 500;
+				res.end(JSON.stringify({ message: 'Internal Server Error' }));
+			} else {
+				res.statusCode = 200;
+				res.end(JSON.stringify(results));
+			}
 		});
 	} else if (path === '/patient/upcomingappt' && method === 'GET') {
 		// Get all users
@@ -771,7 +876,7 @@ const server = http.createServer((req, res) => {
 		req.on('end', () => {
 			const data = JSON.parse(body);
 
-			console.log('My req:', data);
+			// console.log('My req:', data);
 			const docid = data.data.doctor_id;
 			// console.log('My doc', docid);
 			const offid = data.data.location;
@@ -785,7 +890,7 @@ const server = http.createServer((req, res) => {
 			if (refid === '') {
 				refid = null;
 			}
-			console.log('Inserting', docid, offid, date, time, refid);
+			// console.log('Inserting', docid, offid, date, time, refid);
 			if (reason === 'general') {
 				db.selfBookingApptNoRef(
 					docid,
@@ -814,7 +919,7 @@ const server = http.createServer((req, res) => {
 					time,
 					refid,
 					(err, results) => {
-						console.log('booking referral');
+						// console.log('booking referral');
 						// console.log(err);
 						if (err) {
 							res.statusCode = 500;
