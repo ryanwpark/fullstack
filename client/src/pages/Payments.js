@@ -32,7 +32,7 @@ function Payments() {
 		console.log(data);
 		axios
 			.post(
-				'https://medical-clinic-main.herokuapp.com/patient/pay',
+				'https://medical-clinc-backend.herokuapp.com/patient/pay',
 				data,
 				{
 					headers: { 'Content-Type': 'application/json' },

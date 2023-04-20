@@ -14,7 +14,7 @@ export default function PatientUpdate() {
 		if (!isLoaded) {
 			axios
 				.get(
-					'https://medical-clinic-main.herokuapp.com/patient/getinfo'
+					'https://medical-clinc-backend.herokuapp.com/patient/getinfo'
 				)
 				.then((response) => {
 					setmyinfo(response.data[0]);

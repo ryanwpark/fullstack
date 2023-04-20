@@ -6,7 +6,9 @@ export default function PatientDiagnosis() {
 	const [ref, setref] = useState([]);
 	useEffect(() => {
 		axios
-			.get('https://medical-clinic-main.herokuapp.com/patient/diagnosis')
+			.get(
+				'https://medical-clinc-backend.herokuapp.com/patient/diagnosis'
+			)
 			.then((response) => {
 				console.log('My response:', response.data);
 				setref(response.data);

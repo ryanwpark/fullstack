@@ -22,7 +22,7 @@ export default function Login() {
 		event.preventDefault();
 		try {
 			const { data } = await axios.post(
-				'https://medical-clinic-main.herokuapp.com/login/test',
+				'https://medical-clinc-backend.herokuapp.com/login/test',
 				{
 					username: username,
 					password: password,

@@ -19,7 +19,9 @@ export default function DoctorPrevAppt() {
 
 	useEffect(() => {
 		axios
-			.get('https://medical-clinic-main.herokuapp.com/doctor/appthistory')
+			.get(
+				'https://medical-clinc-backend.herokuapp.com/doctor/appthistory'
+			)
 			.then((response) => {
 				console.log('MY RESPONSE');
 				console.log(response);

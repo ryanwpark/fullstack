@@ -39,7 +39,7 @@ export default function Appointments() {
 		if (location && reason) {
 			axios
 				.post(
-					'https://medical-clinic-main.herokuapp.com/patient/bookappt/getdoctors',
+					'https://medical-clinc-backend.herokuapp.com/patient/bookappt/getdoctors',
 					{
 						location,
 						reason,

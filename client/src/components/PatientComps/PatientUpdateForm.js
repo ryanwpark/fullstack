@@ -394,7 +394,7 @@ const FormikForm = withFormik({
 	handleSubmit: (values, { props, ...actions }) => {
 		axios
 			.post(
-				'https://medical-clinic-main.herokuapp.com/patient/editinfo',
+				'https://medical-clinc-backend.herokuapp.com/patient/editinfo',
 				{ values }
 			)
 			.then((response) => {

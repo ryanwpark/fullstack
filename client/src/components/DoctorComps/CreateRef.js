@@ -20,7 +20,7 @@ export default function CreateRef() {
 		console.log(data);
 		axios
 			.post(
-				'https://medical-clinic-main.herokuapp.com/doctor/makeref',
+				'https://medical-clinc-backend.herokuapp.com/doctor/makeref',
 				data,
 				{
 					headers: { 'Content-Type': 'application/json' },

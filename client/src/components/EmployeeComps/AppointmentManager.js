@@ -15,7 +15,7 @@ export default function AppointmentManager() {
 		// console.log('My entry:', apptid);
 		axios
 			.post(
-				'https://medical-clinic-main.herokuapp.com/employee/getappt',
+				'https://medical-clinc-backend.herokuapp.com/employee/getappt',
 				{
 					apptid,
 				}

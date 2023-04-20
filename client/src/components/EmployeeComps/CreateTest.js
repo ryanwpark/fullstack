@@ -21,7 +21,7 @@ export default function CreateTest() {
 		console.log(data);
 		axios
 			.post(
-				'https://medical-clinic-main.herokuapp.com/employee/BloodTest',
+				'https://medical-clinc-backend.herokuapp.com/employee/BloodTest',
 				data,
 				{
 					headers: { 'Content-Type': 'application/json' },

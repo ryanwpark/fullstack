@@ -765,7 +765,7 @@ const server = http.createServer((req, res) => {
 		});
 		req.on('end', () => {
 			const data = JSON.parse(body);
-			const billingid = data.Invoice_id; // assuming your JSON data has a 'billingid' field
+			const billingid = data.invoice_id; // assuming your JSON data has a 'billingid' field
 			res.writeHead(200, {
 				'Access-Control-Allow-Origin': '*',
 				'Access-Control-Allow-Methods': '*',

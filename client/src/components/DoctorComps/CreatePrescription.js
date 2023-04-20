@@ -23,7 +23,7 @@ export default function CreatePrescription() {
 		// console.log(data);
 		axios
 			.post(
-				'https://medical-clinic-main.herokuapp.com/doctor/creatpresc',
+				'https://medical-clinc-backend.herokuapp.com/doctor/creatpresc',
 				data,
 				{
 					headers: { 'Content-Type': 'application/json' },
@@ -75,8 +75,37 @@ export default function CreatePrescription() {
 										<Input
 											type="text"
 											name="patid"
+											isRequired
 											placeholder="Enter Patient ID"
 											{...register('patid')}
+										/>
+									</Box>
+								</VStack>
+							</FormControl>
+							<FormControl>
+								<VStack>
+									<FormLabel>Patient First Name</FormLabel>
+									<Box>
+										<Input
+											type="text"
+											name="patfirst"
+											isRequired
+											placeholder="Enter Patient First Name"
+											{...register('patf')}
+										/>
+									</Box>
+								</VStack>
+							</FormControl>
+							<FormControl>
+								<VStack>
+									<FormLabel>Patient Last Name</FormLabel>
+									<Box>
+										<Input
+											type="text"
+											name="patid"
+											isRequired
+											placeholder="Enter Patient Last Name"
+											{...register('patl')}
 										/>
 									</Box>
 								</VStack>
@@ -89,6 +118,7 @@ export default function CreatePrescription() {
 										<Input
 											type="text"
 											name="presname"
+											isRequired
 											placeholder="Enter Prescription Name"
 											{...register('presname')}
 										/>
@@ -101,6 +131,7 @@ export default function CreatePrescription() {
 									<Box>
 										<Input
 											type="number"
+											isRequired
 											name="refill"
 											placeholder="Amount of Refills"
 											{...register('refill')}
@@ -115,6 +146,7 @@ export default function CreatePrescription() {
 										<Input
 											type="text"
 											name="str"
+											isRequired
 											placeholder="Prescription Strength"
 											{...register('str')}
 										/>
@@ -127,6 +159,7 @@ export default function CreatePrescription() {
 									<Box>
 										<Input
 											type="text"
+											isRequired
 											name="ndc"
 											placeholder="Medication NDC #"
 											{...register('ndc')}

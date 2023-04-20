@@ -33,7 +33,7 @@ export default function DoctorPatientReport() {
 	const onSubmit = (data) => {
 		axios
 			.post(
-				'https://medical-clinic-main.herokuapp.com/doctor/patientreport',
+				'https://medical-clinc-backend.herokuapp.com/doctor/patientreport',
 				data,
 				{
 					headers: { 'Content-Type': 'application/json' },

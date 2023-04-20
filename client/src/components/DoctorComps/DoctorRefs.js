@@ -15,7 +15,7 @@ export default function DoctorRefs() {
 	const [ref, setref] = useState([]);
 	useEffect(() => {
 		axios
-			.get('https://medical-clinic-main.herokuapp.com/doctor/getrefs')
+			.get('https://medical-clinc-backend.herokuapp.com/doctor/getrefs')
 			.then((response) => {
 				console.log('My response:', response.data);
 				setref(response.data);
@@ -29,7 +29,7 @@ export default function DoctorRefs() {
 		console.log('deleting:', ref_ID);
 		axios
 			.post(
-				'https://medical-clinic-main.herokuapp.com/doctor/cancelref',
+				'https://medical-clinc-backend.herokuapp.com/doctor/cancelref',
 				{ refid: ref_ID },
 				{
 					headers: { 'Content-Type': 'application/json' },

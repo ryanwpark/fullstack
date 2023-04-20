@@ -16,6 +16,8 @@ import banner from '../../pages/banner.jpg';
 
 export default function EditPatientInfo() {
 	const [patid, setpatid] = useState('');
+	const [first, setfirst] = useState('');
+	const [last, setlast] = useState('');
 	const [info, setmyinfo] = useState([]);
 	const [good, setgood] = useState('');
 	const [bad, setbad] = useState('');
@@ -24,7 +26,7 @@ export default function EditPatientInfo() {
 		console.log('My entry:', patid);
 		axios
 			.post(
-				'https://medical-clinic-main.herokuapp.com/doctor/getpatientinfo',
+				'https://medical-clinc-backend.herokuapp.com/doctor/getpatientinfo',
 				{
 					id: patid,
 				}
@@ -74,19 +76,35 @@ export default function EditPatientInfo() {
 						<Card width={800}>
 							<CardBody>
 								<HStack>
-									<Card bg="blue.100" size="lg" height="5vh">
-										<CardHeader padding={2}>
-											Enter Patient ID
-										</CardHeader>
-									</Card>
 									<Input
 										width={400}
 										type="text"
 										value={patid}
+										isRequired
 										onChange={(e) => {
 											setpatid(e.target.value);
 										}}
 										placeholder="Enter Patient ID"
+									/>
+									<Input
+										width={400}
+										type="text"
+										isRequired
+										value={first}
+										onChange={(e) => {
+											setfirst(e.target.value);
+										}}
+										placeholder="Enter Patient First Name"
+									/>
+									<Input
+										width={400}
+										type="text"
+										value={last}
+										isRequired
+										onChange={(e) => {
+											setlast(e.target.value);
+										}}
+										placeholder="Enter Patient Last Name"
 									/>
 									<Input
 										width={200}

@@ -8,7 +8,7 @@ export default function OfficeAppts() {
 	useEffect(() => {
 		axios
 			.get(
-				'https://medical-clinic-main.herokuapp.com/employee/upcomingappt'
+				'https://medical-clinc-backend.herokuapp.com/employee/upcomingappt'
 			)
 			.then((response) => {
 				console.log('My response:', response.data);
@@ -23,7 +23,7 @@ export default function OfficeAppts() {
 		console.log(appt_id);
 		axios
 			.post(
-				'https://medical-clinic-main.herokuapp.com/cancelappt',
+				'https://medical-clinc-backend.herokuapp.com/cancelappt',
 				{ appt_id: appt_id },
 				{
 					headers: { 'Content-Type': 'application/json' },

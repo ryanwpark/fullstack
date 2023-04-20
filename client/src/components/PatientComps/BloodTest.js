@@ -8,7 +8,7 @@ export default function ApptHistory() {
 	useEffect(() => {
 		axios
 			.get(
-				'https://medical-clinic-main.herokuapp.com/patient/blood/history'
+				'https://medical-clinc-backend.herokuapp.com/patient/blood/history'
 			)
 			.then((response) => {
 				console.log('MY RESPONSE');

@@ -8,7 +8,7 @@ export default function BillingTable() {
 	useEffect(() => {
 		axios
 			.get(
-				'https://medical-clinic-main.herokuapp.com/patient/billing/history'
+				'https://medical-clinc-backend.herokuapp.com/patient/billing/history'
 			)
 			.then((response) => {
 				console.log('MY RESPONSE');

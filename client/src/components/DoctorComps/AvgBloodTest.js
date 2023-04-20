@@ -34,7 +34,7 @@ export default function AvgBloodTest() {
 		console.log('sending:', start, end);
 		axios
 			.post(
-				'https://medical-clinic-main.herokuapp.com/doctor/averageblood',
+				'https://medical-clinc-backend.herokuapp.com/doctor/averageblood',
 				{
 					start: start,
 					end: end,
