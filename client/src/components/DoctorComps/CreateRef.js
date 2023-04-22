@@ -42,7 +42,7 @@ export default function CreateRef() {
 		<Card>
 			{message && <Card bg="green.100">{message}</Card>}
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<Card height="50vh" alignSelf="center" bg="blue.100">
+				<Card height="70vh" alignSelf="center" bg="blue.100">
 					<CardBody>
 						<FormLabel textAlign="center" fontWeight="bold">
 							Create Referral
@@ -55,15 +55,37 @@ export default function CreateRef() {
 											<CardBody>
 												<VStack>
 													<FormLabel>
-														Patient ID
+														Patient First Name
 													</FormLabel>
 													<Input
 														width={400}
 														type="number"
 														placeholder="Enter Patient's ID"
-														className="patname"
+														className="patf"
 														focusBorderColor="blue.300"
 														{...register('patid')}
+													/>
+													<FormLabel>
+														Patient First Name
+													</FormLabel>
+													<Input
+														width={400}
+														type="text"
+														placeholder="Enter Patient's First Name"
+														className="patf"
+														focusBorderColor="blue.300"
+														{...register('patf')}
+													/>
+													<FormLabel>
+														Patient Last Name
+													</FormLabel>
+													<Input
+														width={400}
+														type="text"
+														placeholder="Enter Patient's Last Name"
+														className="patl"
+														focusBorderColor="blue.300"
+														{...register('patl')}
 													/>
 													<FormLabel>
 														Specialist Referred

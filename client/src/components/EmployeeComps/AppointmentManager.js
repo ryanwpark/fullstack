@@ -59,7 +59,7 @@ export default function AppointmentManager() {
 					<VStack spacing={10}>
 						<Card bg="blue.100" width={800}>
 							<HStack spacing={39}>
-								<CardHeader>Enter Patient ID</CardHeader>
+								<CardHeader>Enter Appointment ID</CardHeader>
 								<Input
 									isRequired
 									paddingLeft={50}

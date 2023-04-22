@@ -339,34 +339,53 @@ function patientdiagnosis(callback) {
 	);
 }
 
-function getPatientInfo(pat_id, start_date, end_date, callback) {
+function getPatientInfo(
+	pat_id,
+	pat_name_F,
+	pat_name_L,
+	start_date,
+	end_date,
+	callback
+) {
 	connection.query(
-		`SELECT ap.appointment_id, ap.appt_doctor_id, dr.doctor_name, dr.doctor_specialization, office.city, ap.ref_id, ap.appt_date, ap.appt_time, p.patient_first_name, p.patient_last_name, p.patient_email, p.patient_phone_num, p.patient_sex FROM appoinment ap INNER JOIN patient p ON ap.appt_patient_id = p.patient_id INNER JOIN doctor dr ON ap.appt_doctor_id = dr.doctor_id INNER JOIN office ON ap.appt_office_id = office.office_ID WHERE appt_patient_id = ? AND appt_date >= ? AND appt_date <= ?`,
-		[pat_id, start_date, end_date],
+		`SELECT ap.appointment_id, ap.appt_doctor_id, dr.doctor_name, dr.doctor_specialization, office.city, ap.ref_id, ap.appt_date, ap.appt_time, p.patient_first_name, p.patient_last_name, p.patient_email, p.patient_phone_num, p.patient_sex FROM appoinment ap INNER JOIN patient p ON ap.appt_patient_id = p.patient_id INNER JOIN doctor dr ON ap.appt_doctor_id = dr.doctor_id INNER JOIN office ON ap.appt_office_id = office.office_ID WHERE ap.appt_patient_id = ? AND p.patient_first_name = ? AND p.patient_last_name = ? AND ap.appt_date >= ? AND ap.appt_date <= ?`,
+		[pat_id, pat_name_F, pat_name_L, start_date, end_date],
 		callback
 	);
 }
 
-function getPatientInfoNothing(pat_id, callback) {
+function getPatientInfoNothing(pat_id, pat_name_F, pat_name_L, callback) {
 	connection.query(
-		`SELECT ap.appointment_id, ap.appt_doctor_id, dr.doctor_name, dr.doctor_specialization, office.city, ap.ref_id, ap.appt_date, ap.appt_time, p.patient_first_name, p.patient_last_name, p.patient_email, p.patient_phone_num, p.patient_sex FROM appoinment ap INNER JOIN patient p ON ap.appt_patient_id = p.patient_id INNER JOIN doctor dr ON ap.appt_doctor_id = dr.doctor_id INNER JOIN office ON ap.appt_office_id = office.office_ID WHERE appt_patient_id = ?`,
-		[pat_id],
+		`SELECT ap.appointment_id, ap.appt_doctor_id, dr.doctor_name, dr.doctor_specialization, office.city, ap.ref_id, ap.appt_date, ap.appt_time, p.patient_first_name, p.patient_last_name, p.patient_email, p.patient_phone_num, p.patient_sex FROM appoinment ap INNER JOIN patient p ON ap.appt_patient_id = p.patient_id INNER JOIN doctor dr ON ap.appt_doctor_id = dr.doctor_id INNER JOIN office ON ap.appt_office_id = office.office_ID WHERE ap.appt_patient_id = ? AND p.patient_first_name = ? AND  p.patient_last_name = ?`,
+		[pat_id, pat_name_F, pat_name_L],
 		callback
 	);
 }
 
-function getPatientInfoNoStart(pat_id, end_date, callback) {
+function getPatientInfoNoStart(
+	pat_id,
+	pat_name_F,
+	pat_name_L,
+	end_date,
+	callback
+) {
 	connection.query(
-		`SELECT ap.appointment_id, ap.appt_doctor_id, dr.doctor_name, dr.doctor_specialization, office.city, ap.ref_id, ap.appt_date, ap.appt_time, p.patient_first_name, p.patient_last_name, p.patient_email, p.patient_phone_num, p.patient_sex FROM appoinment ap INNER JOIN patient p ON ap.appt_patient_id = p.patient_id INNER JOIN doctor dr ON ap.appt_doctor_id = dr.doctor_id INNER JOIN office ON ap.appt_office_id = office.office_ID WHERE appt_patient_id = ? AND appt_date <= ?`,
-		[pat_id, end_date],
+		`SELECT ap.appointment_id, ap.appt_doctor_id, dr.doctor_name, dr.doctor_specialization, office.city, ap.ref_id, ap.appt_date, ap.appt_time, p.patient_first_name, p.patient_last_name, p.patient_email, p.patient_phone_num, p.patient_sex FROM appoinment ap INNER JOIN patient p ON ap.appt_patient_id = p.patient_id INNER JOIN doctor dr ON ap.appt_doctor_id = dr.doctor_id INNER JOIN office ON ap.appt_office_id = office.office_ID WHERE appt_patient_id = ? AND p.patient_first_name = ? AND p.patient_last_name = ? AND appt_date <= ?`,
+		[pat_id, pat_name_F, pat_name_L, end_date],
 		callback
 	);
 }
 
-function getPatientInfoNoEnd(pat_id, start_date, callback) {
+function getPatientInfoNoEnd(
+	pat_id,
+	pat_name_F,
+	pat_name_L,
+	start_date,
+	callback
+) {
 	connection.query(
-		`SELECT ap.appointment_id, ap.appt_doctor_id, dr.doctor_name, dr.doctor_specialization, office.city, ap.ref_id, ap.appt_date, ap.appt_time, p.patient_first_name, p.patient_last_name, p.patient_email, p.patient_phone_num, p.patient_sex FROM appoinment ap INNER JOIN patient p ON ap.appt_patient_id = p.patient_id INNER JOIN doctor dr ON ap.appt_doctor_id = dr.doctor_id INNER JOIN office ON ap.appt_office_id = office.office_ID WHERE appt_patient_id = ? AND appt_date >= ?`,
-		[pat_id, start_date],
+		`SELECT ap.appointment_id, ap.appt_doctor_id, dr.doctor_name, dr.doctor_specialization, office.city, ap.ref_id, ap.appt_date, ap.appt_time, p.patient_first_name, p.patient_last_name, p.patient_email, p.patient_phone_num, p.patient_sex FROM appoinment ap INNER JOIN patient p ON ap.appt_patient_id = p.patient_id INNER JOIN doctor dr ON ap.appt_doctor_id = dr.doctor_id INNER JOIN office ON ap.appt_office_id = office.office_ID WHERE appt_patient_id = ? AND p.patient_first_name = ? AND p.patient_last_name = ? AND appt_date >= ?`,
+		[pat_id, pat_name_F, pat_name_L, start_date],
 		callback
 	);
 }

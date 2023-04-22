@@ -448,28 +448,36 @@ const server = http.createServer((req, res) => {
 			const data = JSON.parse(body);
 			console.log('Grishma:', data);
 			const pat_id = data.data.patid;
+			const pat_name_F = data.data.patnameF;
+			const pat_name_L = data.data.patnameL;
 			const start_date = data.data.startdate.slice(0, 10);
-			console.log(pat_id, start_date);
+			console.log(pat_id, pat_name_F, pat_name_L, start_date);
 			res.writeHead(200, {
 				'Access-Control-Allow-Origin': '*',
 				'Access-Control-Allow-Methods': '*',
 				'Access-Control-Allow-Headers': 'Content-Type',
 				'Access-Control-Max-Age': 86400, // 24 hours
 			});
-			db.getPatientInfoNoEnd(pat_id, start_date, (err, results) => {
-				// console.log('results:', results);
-				if (err) {
-					res.statusCode = 500;
-					res.end(
-						JSON.stringify({
-							message: 'Those details entered are invalid',
-						})
-					);
-				} else {
-					res.statusCode = 200;
-					res.end(JSON.stringify(results));
+			db.getPatientInfoNoEnd(
+				pat_id,
+				pat_name_F,
+				pat_name_L,
+				start_date,
+				(err, results) => {
+					// console.log('results:', results);
+					if (err) {
+						res.statusCode = 500;
+						res.end(
+							JSON.stringify({
+								message: 'Those details entered are invalid',
+							})
+						);
+					} else {
+						res.statusCode = 200;
+						res.end(JSON.stringify(results));
+					}
 				}
-			});
+			);
 		});
 	} else if (
 		path === '/employee/patientlookup/nostart' &&
@@ -483,6 +491,8 @@ const server = http.createServer((req, res) => {
 			const data = JSON.parse(body);
 			console.log('Grishma:', data);
 			const pat_id = data.data.patid;
+			const pat_name_F = data.data.patnameF;
+			const pat_name_L = data.data.patnameL;
 			const end_date = data.data.enddate.slice(0, 10);
 			console.log(pat_id, end_date);
 			res.writeHead(200, {
@@ -491,20 +501,26 @@ const server = http.createServer((req, res) => {
 				'Access-Control-Allow-Headers': 'Content-Type',
 				'Access-Control-Max-Age': 86400, // 24 hours
 			});
-			db.getPatientInfoNoStart(pat_id, end_date, (err, results) => {
-				// console.log('results:', results);
-				if (err) {
-					res.statusCode = 500;
-					res.end(
-						JSON.stringify({
-							message: 'Those details entered are invalid',
-						})
-					);
-				} else {
-					res.statusCode = 200;
-					res.end(JSON.stringify(results));
+			db.getPatientInfoNoStart(
+				pat_id,
+				pat_name_F,
+				pat_name_L,
+				end_date,
+				(err, results) => {
+					// console.log('results:', results);
+					if (err) {
+						res.statusCode = 500;
+						res.end(
+							JSON.stringify({
+								message: 'Those details entered are invalid',
+							})
+						);
+					} else {
+						res.statusCode = 200;
+						res.end(JSON.stringify(results));
+					}
 				}
-			});
+			);
 		});
 	} else if (
 		path === '/employee/patientlookup/nothing' &&
@@ -518,26 +534,33 @@ const server = http.createServer((req, res) => {
 			const data = JSON.parse(body);
 			console.log('Grishma:', data);
 			const pat_id = data.data.patid;
+			const pat_name_F = data.data.patnameF;
+			const pat_name_L = data.data.patnameL;
 			res.writeHead(200, {
 				'Access-Control-Allow-Origin': '*',
 				'Access-Control-Allow-Methods': '*',
 				'Access-Control-Allow-Headers': 'Content-Type',
 				'Access-Control-Max-Age': 86400, // 24 hours
 			});
-			db.getPatientInfoNothing(pat_id, (err, results) => {
-				// console.log('results:', results);
-				if (err) {
-					res.statusCode = 500;
-					res.end(
-						JSON.stringify({
-							message: 'Those details entered are invalid',
-						})
-					);
-				} else {
-					res.statusCode = 200;
-					res.end(JSON.stringify(results));
+			db.getPatientInfoNothing(
+				pat_id,
+				pat_name_F,
+				pat_name_L,
+				(err, results) => {
+					// console.log('results:', results);
+					if (err) {
+						res.statusCode = 500;
+						res.end(
+							JSON.stringify({
+								message: 'Those details entered are invalid',
+							})
+						);
+					} else {
+						res.statusCode = 200;
+						res.end(JSON.stringify(results));
+					}
 				}
-			});
+			);
 		});
 	} else if (path === '/employee/patientlookup' && method === 'POST') {
 		let body = '';
@@ -548,33 +571,42 @@ const server = http.createServer((req, res) => {
 			const data = JSON.parse(body);
 			console.log('Grishma:', data);
 			const pat_id = data.data.patid;
+			const pat_name_F = data.data.patnameF;
+			const pat_name_L = data.data.patnameL;
 			const start_date = data.data.startdate.slice(0, 10);
 			const end_date = data.data.enddate.slice(0, 10);
 			// const tempdate = data.data.DatePicker;
 			// console.log('typeof', typeof tempdate);
 
 			//const date = tempdate.slice(0, 10);
-			console.log(pat_id, start_date, end_date);
+			console.log(pat_id, pat_name_F, pat_name_L, start_date, end_date);
 			res.writeHead(200, {
 				'Access-Control-Allow-Origin': '*',
 				'Access-Control-Allow-Methods': '*',
 				'Access-Control-Allow-Headers': 'Content-Type',
 				'Access-Control-Max-Age': 86400, // 24 hours
 			});
-			db.getPatientInfo(pat_id, start_date, end_date, (err, results) => {
-				// console.log('results:', results);
-				if (err) {
-					res.statusCode = 500;
-					res.end(
-						JSON.stringify({
-							message: 'Those details entered are invalid',
-						})
-					);
-				} else {
-					res.statusCode = 200;
-					res.end(JSON.stringify(results));
+			db.getPatientInfo(
+				pat_id,
+				pat_name_F,
+				pat_name_L,
+				start_date,
+				end_date,
+				(err, results) => {
+					// console.log('results:', results);
+					if (err) {
+						res.statusCode = 500;
+						res.end(
+							JSON.stringify({
+								message: 'Those details entered are invalid',
+							})
+						);
+					} else {
+						res.statusCode = 200;
+						res.end(JSON.stringify(results));
+					}
 				}
-			});
+			);
 		});
 	} else if (path === '/employee/upcomingappt' && method === 'GET') {
 		// Get all users
@@ -765,7 +797,7 @@ const server = http.createServer((req, res) => {
 		});
 		req.on('end', () => {
 			const data = JSON.parse(body);
-			const billingid = data.invoice_id; // assuming your JSON data has a 'billingid' field
+			const billingid = data.Invoice_id; // assuming your JSON data has a 'billingid' field
 			res.writeHead(200, {
 				'Access-Control-Allow-Origin': '*',
 				'Access-Control-Allow-Methods': '*',

@@ -75,6 +75,28 @@ export default function CreateTest() {
 											focusBorderColor="blue.300"
 											{...register('patid')}
 										/>
+										<FormLabel textAlign="center">
+											Patient First Name
+										</FormLabel>
+										<Input
+											width={200}
+											type="text"
+											placeholder="Patient's First Name"
+											className="patf"
+											focusBorderColor="blue.300"
+											{...register('patf')}
+										/>
+										<FormLabel textAlign="center">
+											Patient Last Name
+										</FormLabel>
+										<Input
+											width={200}
+											type="text"
+											placeholder="Patient's Last Name"
+											className="patl"
+											focusBorderColor="blue.300"
+											{...register('patl')}
+										/>
 										<FormLabel>Blood Type</FormLabel>
 										<Input
 											width={150}

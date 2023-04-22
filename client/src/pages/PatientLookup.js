@@ -42,7 +42,8 @@ export default function PatientLookup() {
 			console.log('Sending:', { ...data, startdate, enddate });
 			axios
 				.post(
-					'https://medical-clinc-backend.herokuapp.com/employee/patientlookup',
+					'https://medical-clinic-main.herokuapp.com/employee/patientlookup',
+					// 'http://localhost:8000/employee/patientlookup',
 					{ data }
 				)
 				.then((response) => {
@@ -198,7 +199,7 @@ export default function PatientLookup() {
 					{errmsg}
 				</Card>
 			)}
-			<Card height="50vh" alignSelf="center">
+			<Card height="75vh" alignSelf="center">
 				<CardBody>
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<HStack spacing={10}>
@@ -217,11 +218,36 @@ export default function PatientLookup() {
 												<Input
 													isRequired
 													width={400}
-													type="text"
+													type="number"
 													placeholder="Enter Patient ID"
 													className="patid"
 													focusBorderColor="blue.300"
 													{...register('patid')}
+												/>
+											</CardBody>
+											<CardBody>
+												<FormLabel>
+													Patient Name
+												</FormLabel>
+												<Input
+													isRequired
+													width={400}
+													type="text"
+													placeholder="Enter Patient First Name"
+													className="patnameF"
+													focusBorderColor="blue.300"
+													{...register('patnameF')}
+												/>
+											</CardBody>
+											<CardBody>
+												<Input
+													isRequired
+													width={400}
+													type="text"
+													placeholder="Enter Patient Last Name"
+													className="patnameL"
+													focusBorderColor="blue.300"
+													{...register('patnameL')}
 												/>
 											</CardBody>
 										</Card>
