@@ -42,7 +42,7 @@ export default function PatientLookup() {
 			console.log('Sending:', { ...data, startdate, enddate });
 			axios
 				.post(
-					'https://medical-clinic-main.herokuapp.com/employee/patientlookup',
+					'https://medical-clinc-backend.herokuapp.com/employee/patientlookup',
 					// 'http://localhost:8000/employee/patientlookup',
 					{ data }
 				)
@@ -77,7 +77,7 @@ export default function PatientLookup() {
 			console.log('Sending:', { ...data, startdate });
 			axios
 				.post(
-					'https://medical-clinic-main.herokuapp.com/employee/patientlookup/noend',
+					'https://medical-clinc-backend.herokuapp.com/employee/patientlookup/noend',
 					// 'http://localhost:8000/employee/patientlookup/noend',
 					{ data }
 				)
@@ -111,7 +111,7 @@ export default function PatientLookup() {
 			console.log('Sending:', { ...data });
 			axios
 				.post(
-					'https://medical-clinic-main.herokuapp.com/employee/patientlookup/nothing',
+					'https://medical-clinc-backend.herokuapp.com/employee/patientlookup/nothing',
 					// 'http://localhost:8000/employee/patientlookup/nothing',
 					{ data }
 				)
@@ -147,7 +147,7 @@ export default function PatientLookup() {
 			console.log('Sending:', { ...data, enddate });
 			axios
 				.post(
-					'https://medical-clinic-main.herokuapp.com/employee/patientlookup/nostart',
+					'https://medical-clinc-backend.herokuapp.com/employee/patientlookup/nostart',
 					// 'http://localhost:8000/employee/patientlookup/nostart',
 					{ data }
 				)
