@@ -13,10 +13,10 @@ steps to run locally
   2) in terminal, "npm install"
   3) in terminal, "npm start"
 
-How to Login as a Patient
-    Once the website is up locally, you can login in clicking the blue button "Have an account? Login to book an appointment!".
-    Our Locations and can be seen by clicking the blue button "Schedule an appointment over the phone".
-    To login in as our patient, you can use the username "wade123" and the password "password".
+    How to Login as a Patient
+  Once the website is up locally, you can login in clicking the blue button "Have an account? Login to book an appointment!".
+  Our Locations and can be seen by clicking the blue button "Schedule an appointment over the phone".
+  To login in as our patient, you can use the username "wade123" and the password "password".
 
 Functions for Patients
     We can see our upcoming appointments and cancel them by clicking the red "cancel" button.
@@ -55,10 +55,10 @@ Functions for Patients
    
    
    
-How to Login as a Employee
-      You can login in clicking the blue button "Have an account? Login to book an appointment!".
-      Our Locations and can be seen by clicking the blue button "Schedule an appointment over the phone".
-      To login in as our Employee, you can use the username "h.wang" and the password "password456".
+    How to Login as a Employee
+  You can login in clicking the blue button "Have an account? Login to book an appointment!".
+  Our Locations and can be seen by clicking the blue button "Schedule an appointment over the phone".
+  To login in as our Employee, you can use the username "h.wang" and the password "password456".
 
 Functions for Employees
       We can see our upcoming appointments for our employee's location and cancel them by clicking the red "cancel" button.
@@ -87,12 +87,13 @@ Functions for Employees
       This data will be displaying data from the patient table and appointment table.
       
       
-       We can logout of Employees by clicking the tab "Logout".
+   We can logout of Employees by clicking the tab "Logout".
        
- #How to Login as a Doctor
-  Once the website is up locally, you can login in clicking the blue button "Have an account? Login to book an appointment!".
-  Our Locations and can be seen by clicking the blue button "Schedule an appointment over the phone".
-  To login in as our doctor, you can use the username "jsmith" and the password "12345678".
+    How to Login as a Doctor
+  You can login in clicking the blue button "Have an account? Login to book an appointment!".
+  To login in as our doctor, you can use the 
+  Username "jsmith" 
+  password "12345678".
 
 Doctor Welcome Page
   We can see our upcoming appointments and cancel them by clicking the red "cancel" button.
