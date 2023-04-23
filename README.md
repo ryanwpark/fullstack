@@ -1,5 +1,8 @@
 # fullstack
 
+Frontend Folder is client.
+Backend Folder is Server
+
 steps to run locally
 
   1) in terminal, "cd client"
