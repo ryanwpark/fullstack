@@ -5,13 +5,12 @@ Backend Folder is Server
 
 To retrieve a clone.
   in terminal, direct to a new folder[with cd] and type "git clone https://github.com/ryanwpark/fullstack"
-  Congratulations
 
-steps to run locally
+Steps to run locally
 
-  1) in terminal, "cd client"
-  2) in terminal, "npm install"
-  3) in terminal, "npm start"
+    1) in terminal, "cd client"
+    2) in terminal, "npm install"
+    3) in terminal, "npm start"
 
     How to Login as a Patient
   Once the website is up locally, you can login in clicking the blue button "Have an account? Login to book an appointment!".
