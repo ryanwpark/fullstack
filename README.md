@@ -3,6 +3,10 @@
 Frontend Folder is client.
 Backend Folder is Server
 
+To retrieve a clone.
+  in terminal, direct to a new folder[with cd] and type "git clone https://github.com/ryanwpark/fullstack"
+  Congratulations
+
 steps to run locally
 
   1) in terminal, "cd client"
