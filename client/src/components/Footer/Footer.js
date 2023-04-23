@@ -2,12 +2,21 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import React from 'react';
+import logo from './logo.png';
 
 function Footer() {
 	return (
 		<Navbar style={{ backgroundColor: '##123456' }} expand="lg">
 			<Container>
-				<Navbar.Brand href="/">Blue Cross Medical</Navbar.Brand>
+				<Navbar.Brand href="/">
+					<img
+						src={logo}
+						width="200"
+						height="150"
+						className="d-inline-block align-top"
+						alt="Kinetic Health logo"
+					/>
+				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav className="me-auto">
