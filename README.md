@@ -12,6 +12,8 @@ Steps to run locally
     2) in terminal, "npm install"
     3) in terminal, "npm start"
 
+
+
     How to Login as a Patient
   Once the website is up locally, you can login in clicking the blue button "Have an account? Login to book an appointment!".
   Our Locations and can be seen by clicking the blue button "Schedule an appointment over the phone".
