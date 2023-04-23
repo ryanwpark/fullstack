@@ -25,9 +25,9 @@ export default function BillingTable() {
 		<Table variant="striped" colorScheme="blue">
 			<Tbody>
 				<Tr>
+					<Th>ID</Th>
 					<Th>Date</Th>
 					<Th>Cost $</Th>
-
 					<Th>Payment Method</Th>
 					<Th>Payment status</Th>
 					<Th>Insurance</Th>
@@ -35,6 +35,7 @@ export default function BillingTable() {
 				</Tr>
 				{MyInvoices?.map((invoice) => (
 					<Tr key={invoice.invoice_id}>
+						<Td>{invoice.invoice_id}</Td>
 						<Td>{invoice.date_created.slice(0, 10)}</Td>
 						<Td>{invoice.cost}</Td>
 						<Td>{invoice.payment_method}</Td>

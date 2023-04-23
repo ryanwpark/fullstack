@@ -59,7 +59,7 @@ export default function DoctorRefs() {
 						<Th>Doctor Referred To</Th>
 						<Th>Specialization</Th>
 						<Th>Patient ID</Th>
-						<Th color="red">Delete</Th>
+						<Th color="red">Cancel</Th>
 					</Tr>
 					{ref.length > 0 ? (
 						ref.map((reflist, index) => (
@@ -75,7 +75,7 @@ export default function DoctorRefs() {
 											onDeleteRow(reflist.ref_ID);
 											cancelref(reflist.ref_ID);
 										}}>
-										Delete
+										Cancel
 									</Button>
 								</Td>
 							</Tr>

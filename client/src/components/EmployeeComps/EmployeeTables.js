@@ -7,7 +7,7 @@ export default function EmployeeTables() {
 	return (
 		<VStack spacing={4} align="left">
 			<Tag size="lg" variant="solid" colorScheme="blue">
-				Appointments for Today
+				Upcoming Appointments
 			</Tag>
 			<TableContainer>
 				<OfficeAppts />

@@ -27,7 +27,7 @@ export default function Doctor() {
 					variant="solid"
 					fontWeight="bold"
 					colorScheme="blue">
-					Appointments for Today
+					Upcoming Appointments
 				</CardHeader>
 				<DoctorCurrAppt />
 			</Card>

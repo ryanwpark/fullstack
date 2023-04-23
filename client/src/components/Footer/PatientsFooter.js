@@ -10,7 +10,7 @@ export default function PatientsFooter() {
 		<Navbar bg="primary" variant="dark" expand="sm">
 			<Container>
 				<Navbar.Brand href="/patients" color="blue.300">
-					Welcome Back to BlueCross!
+					Welcome Back to Kinetic Health!
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">

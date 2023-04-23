@@ -55,7 +55,7 @@ export default function OfficeAppts() {
 					<Th>Time</Th>
 					<Th>Patient</Th>
 					<Th>Doctor</Th>
-					<Th color="red">Delete</Th>
+					<Th color="red">Cancel</Th>
 				</Tr>
 				{myAppointments.length > 0 ? (
 					myAppointments.map((appointment) => (
@@ -72,7 +72,7 @@ export default function OfficeAppts() {
 										onDeleteRow(appointment.appointment_id);
 										cancelAppt(appointment.appointment_id);
 									}}>
-									Delete
+									Cancel
 								</Button>
 							</Td>
 						</Tr>

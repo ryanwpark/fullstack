@@ -69,7 +69,7 @@ export default function DoctorCurrAppt() {
 										onDeleteRow(appointment.appointment_id);
 										cancelAppt(appointment.appointment_id);
 									}}>
-									Delete
+									Cancel
 								</Button>
 							</Td>
 						</Tr>
