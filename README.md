@@ -88,6 +88,45 @@ Functions for Employees
       
       
        We can logout of Employees by clicking the tab "Logout".
+       
+ #How to Login as a Doctor
+  Once the website is up locally, you can login in clicking the blue button "Have an account? Login to book an appointment!".
+  Our Locations and can be seen by clicking the blue button "Schedule an appointment over the phone".
+  To login in as our doctor, you can use the username "jsmith" and the password "12345678".
+
+Doctor Welcome Page
+  We can see our upcoming appointments and cancel them by clicking the red "cancel" button.
+  Our upcoming appointments table will be appointments after today's date. 
+  Below the upcoming appointments is where you can create referrals and view/cancel referrals you have created.
+  To create a referral, enter patientID "21", First name "Ryan", Last name "Coog", Referring DoctorID "34", doctor specialization "Gastroentology", then click submit. The referral you created should be on the left side in the Referral History table.
+  
+Appointment History
+  This page shows previous appointments the doctor has had in the past.
+  
+Patient Report
+  The doctor will be prompted to filter what report he would like to view, choose "pregnant" and/or "sexually active", then click submit. This will generate a report that shows the heights, weights, and averages for all patients who fall under the chosen filter(s).
+    
+Manage Patients
+  Enter the following: 
+  PatientID "21", 
+  First Name "Ryan", 
+  Last Name "Coog", 
+  Then click submit. A table with the patient's medical history will be presented. If the medical history needs to be edited, click edit at the bottom and you will be able to edit any of the patient's medical history. On this page the doctor is also able to add/view the patients current medication.
+  
+Blood Test Report
+  This page generates a report that shows the average blood teset results over a period of time. Clicking submit without entering a start and end date will show all blood reports and averages. Entering only a start date will show all blood test after the start date and/or enter an end date to view all the data until that date.
+  
+Create Prescription
+  Enter the following: 
+  PatientID "21", 
+  First Name "Ryan", 
+  Last Name "Coog",
+  Prescription name "Tylenol",
+  Refills "1",
+  Strenght "120mg",
+  NDC "1234-1234"
+  Then click submit. This will add a prescripton for the patient.
+  
      
    
    
